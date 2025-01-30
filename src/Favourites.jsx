@@ -17,7 +17,7 @@ function CityCard() {
   return (
     <div className="city-card">
       <span className="weater_icon">☀️</span>
-      <div>
+      <div className="city">
         <p>New Delhi</p>
         <span>In</span>
       </div>
