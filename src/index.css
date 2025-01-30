@@ -44,7 +44,12 @@ h1 {
   text-align: center;
   font-size: 8rem;
   font-weight: 500;
-  word-spacing: 30px;
-  letter-spacing: -5px;
+  padding: 1.5rem 0;
+}
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
   padding: 1.5rem 0;
 }
