@@ -18,15 +18,29 @@
   padding: 2rem 5rem;
 }
 
-.favourites {
-  width: 100%;
-  min-height: 15rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: start;
-  flex-direction: column;
+main {
+  display: grid;
+  grid-template-columns: 1fr;
 
-  padding: 2rem 5rem;
+  gap: 2rem;
+}
+
+section {
+  width: 100%;
+  min-height: auto;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 0rem 5rem;
+  align-items: start;
+  justify-content: start;
+}
+
+.favourites {
+  & h2 {
+    display: block;
+    cursor: pointer;
+  }
 
   .city_box {
     width: 100%;
@@ -53,6 +67,7 @@
   padding: 1.25rem;
 
   border-radius: 1rem;
+  position: relative;
 
   weater_icon {
     font-size: 1.75rem;
@@ -78,29 +93,49 @@
   .weater_icon {
     font-size: 3rem;
   }
+
+  .closebtn {
+    color: #c8c8c8de;
+    background-color: #353535;
+    border: #333333;
+    position: absolute;
+    top: -0.75rem;
+    right: -0.5rem;
+
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    padding: 0.2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+
+    &:hover {
+      border: 0.1rem solid #c8c8c8de;
+    }
+  }
 }
 
 /* ----------------------------------------------------- */
 
 .mylocation {
-  width: 100%;
-  min-height: 40rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: start;
-  flex-direction: column;
-
-  padding: 0rem 5rem;
-
   .mylocation_card {
     width: 100%;
     min-height: 35rem;
 
     display: grid;
-    grid-template-columns: repeat(8, minmax(5rem, 1fr));
+
+    grid-template-columns: repeat(8, 1fr);
     gap: 1rem;
     justify-content: center;
     align-content: center;
+
+    @media only screen and (max-width: 50em) {
+      grid-template-columns: repeat(4, 1fr);
+    }
 
     .weather_card {
       width: 100%;
@@ -118,8 +153,13 @@
     }
 
     .mylocation_data {
-      grid-column: 1/ 4;
-      min-width: 30rem;
+      grid-column: span 3;
+
+      @media only screen and (max-width: 50em) {
+        grid-column: span 4;
+        min-width: 100%;
+      }
+
       .mylocation_name {
         width: 100%;
         height: auto;
@@ -215,7 +255,11 @@
 
     .mylocation_weather {
       width: 100%;
-      grid-column: 4/-1;
+      grid-column: span 5;
+
+      @media only screen and (max-width: 50em) {
+        grid-column: span 4;
+      }
     }
   }
 }

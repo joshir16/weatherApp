@@ -30,6 +30,9 @@ html {
   @media only screen and (max-width: 50em) {
     font-size: 50%;
   }
+  @media only screen and (max-width: 37.5em) {
+    font-size: 37.5%;
+  }
 }
 
 body {
@@ -48,8 +51,7 @@ h1 {
 }
 
 h2 {
-  text-align: center;
   font-size: 2rem;
   font-weight: 500;
-  padding: 1.5rem 0;
+  padding: 1.5rem;
 }

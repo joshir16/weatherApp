@@ -1,14 +1,20 @@
+import { useState } from "react";
+
 export function Favourites() {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
     <section className="favourites">
-      <h2>Favourites</h2>
-      <div className="city_box">
-        <CityCard />
-        <CityCard />
-        <CityCard />
-        <CityCard />
-        <CityCard />
-      </div>
+      <h2 onClick={() => setIsOpen(() => !isOpen)}>Favourites</h2>
+      {isOpen && (
+        <div className="city_box">
+          <CityCard />
+          <CityCard />
+          <CityCard />
+          <CityCard />
+          <CityCard />
+        </div>
+      )}
     </section>
   );
 }
@@ -25,6 +31,8 @@ function CityCard() {
         <p>15&deg; C</p>
         <span>Clear Sky</span>
       </div>
+
+      <button className="closebtn">x</button>
     </div>
   );
 }
