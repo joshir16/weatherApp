@@ -112,6 +112,7 @@ section {
     align-items: center;
 
     z-index: 999;
+    cursor: pointer;
 
     &:hover {
       border: 0.1rem solid #c8c8c8de;
@@ -141,11 +142,6 @@ section {
       width: 100%;
       min-height: 35rem;
 
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      grid-template-rows: repeat(4, minmax(auto, 7rem));
-      gap: 1rem;
-
       border-radius: 1rem;
       border: 1px solid #333333;
       background-color: #202020;
@@ -154,6 +150,11 @@ section {
 
     .mylocation_data {
       grid-column: span 3;
+
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(4, minmax(auto, 7rem));
+      gap: 1rem;
 
       @media only screen and (max-width: 50em) {
         grid-column: span 4;
@@ -256,6 +257,10 @@ section {
     .mylocation_weather {
       width: 100%;
       grid-column: span 5;
+
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
 
       @media only screen and (max-width: 50em) {
         grid-column: span 4;

@@ -57,7 +57,13 @@ function MyLocation() {
           </div>
         </div>
 
-        <div className="mylocation_weather weather_card">daily Weather</div>
+        <div className="mylocation_weather weather_card">
+          <div className="day_data">1</div>
+          <div className="day_data">2</div>
+          <div className="day_data">3</div>
+          <div className="day_data">4</div>
+          <div className="day_data">5</div>
+        </div>
       </div>
     </section>
   );
