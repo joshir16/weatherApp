@@ -3,7 +3,12 @@ export function NavBar() {
     <nav className="navBar">
       <h2>Weather</h2>
       <div>
-        <input type="search" name="search" id="search" />
+        <input
+          className="search"
+          name="search"
+          type="text"
+          placeholder="Search..."
+        />
       </div>
     </nav>
   );

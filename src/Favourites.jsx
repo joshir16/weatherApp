@@ -8,28 +8,59 @@ export function Favourites() {
       <h2 onClick={() => setIsOpen(() => !isOpen)}>Favourites</h2>
       {isOpen && (
         <div className="city_box">
-          <CityCard />
-          <CityCard />
-          <CityCard />
-          <CityCard />
-          <CityCard />
+          <CityCard
+            icon={`☁️`}
+            temp={`12`}
+            weatherType={`Clouds`}
+            city={`New Delhi`}
+            country={`In`}
+          />
+          <CityCard
+            icon={`🌤️`}
+            temp={`12`}
+            weatherType={`Cloudy`}
+            city={`New Delhi`}
+            country={`In`}
+          />
+          <CityCard
+            icon={`🌦️`}
+            temp={`12`}
+            weatherType={`Rainy`}
+            city={`New Delhi`}
+            country={`In`}
+          />
+          <CityCard
+            icon={`☁️`}
+            temp={`12`}
+            weatherType={`Clouds`}
+            city={`New Delhi`}
+            country={`In`}
+          />
+          <CityCard
+            icon={`☀️`}
+            temp={`12`}
+            weatherType={`Clear Sky`}
+            city={`New Delhi`}
+            country={`In`}
+          />
         </div>
       )}
     </section>
   );
 }
 
-function CityCard() {
+// eslint-disable-next-line react/prop-types
+function CityCard({ icon, temp, weatherType, city, country }) {
   return (
     <div className="city-card">
-      <span className="weater_icon">☀️</span>
+      <span className="weater_icon">{icon}</span>
       <div className="city">
-        <p>New Delhi</p>
-        <span>In</span>
+        <p>{city}</p>
+        <span>{country}</span>
       </div>
       <div>
-        <p>15&deg; C</p>
-        <span>Clear Sky</span>
+        <p>{temp}&deg; C</p>
+        <span>{weatherType}</span>
       </div>
 
       <button className="closebtn">x</button>

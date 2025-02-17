@@ -13,9 +13,41 @@
   justify-content: space-between;
   align-items: center;
 
-  background-color: #353535;
+  background-color: #2a2a2a;
 
   padding: 2rem 5rem;
+
+  h2 {
+    padding: 0.5rem;
+  }
+
+  .search {
+    justify-self: center;
+    padding: 1rem 1rem;
+    font-size: 1.5rem;
+    width: 40rem;
+    transition: all 0.3s;
+    background-color: #202020;
+
+    border-radius: 0.7rem;
+    border: 1px solid #333333;
+
+    @media only screen and (max-width: 50em) {
+      min-width: 35rem;
+      width: auto;
+      justify-self: center;
+    }
+  }
+
+  .search::placeholder {
+    color: #c8c8c8de;
+  }
+
+  .search:focus {
+    outline: none;
+    box-shadow: 0 0.4rem 0.4rem rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
 }
 
 main {
@@ -264,6 +296,10 @@ section {
 
       @media only screen and (max-width: 50em) {
         grid-column: span 4;
+      }
+
+      .day_data {
+        border: 1px solid #333333;
       }
     }
   }
