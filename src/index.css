@@ -57,3 +57,16 @@ h2 {
   font-weight: 500;
   padding: 1.5rem;
 }
+
+.loading {
+  font-size: 2rem;
+  font-weight: 400;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.error {
+  color: #d61515;
+  font-size: 2rem;
+  font-weight: 500;
+  font-family: "Courier New", Courier, monospace;
+}

@@ -1,5 +1,5 @@
 // eslint-disable-next-line react/prop-types
-export function NavBar({ query, setQuery }) {
+export function NavBar({ city, setCity }) {
   function handleSubmit(e) {
     e.preventDefault();
   }
@@ -13,9 +13,9 @@ export function NavBar({ query, setQuery }) {
           name="search"
           type="text"
           placeholder="Search..."
-          value={query}
+          value={city}
           onChange={(e) => {
-            setQuery(e.target.value);
+            setCity(e.target.value);
           }}
         />
         <button className="search-btn" type="submit">
