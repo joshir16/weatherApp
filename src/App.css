@@ -8,7 +8,7 @@
 
 .navBar {
   width: 100%;
-  height: auto;
+  height: var(--nav-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,14 +45,35 @@
 
   .search:focus {
     outline: none;
-    box-shadow: 0 0.4rem 0.4rem rgba(255, 255, 255, 0.1);
     transform: translateY(-2px);
   }
 }
 
+.search-btn {
+  padding: 1rem;
+  font-size: 1.4rem;
+
+  border-radius: 0.7rem;
+  border: 1px solid #333333;
+
+  transition: all 0.3s;
+  background-color: #202020;
+
+  &:hover {
+    background-color: #1c1c1c;
+  }
+}
+
 main {
-  display: grid;
-  grid-template-columns: 1fr;
+  /* display: grid;
+  grid-template-columns: 1fr; */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 80vh;
+  height: calc(100vh - var(--nav-height));
 
   gap: 2rem;
 }
@@ -296,10 +317,45 @@ section {
 
       @media only screen and (max-width: 50em) {
         grid-column: span 4;
+
+        grid-template-columns: repeat(1, 1fr);
       }
 
-      .day_data {
+      .day_card {
+        padding: 1rem;
         border: 1px solid #333333;
+
+        border-radius: 1rem;
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+
+        @media only screen and (max-width: 50em) {
+          flex-direction: row;
+        }
+
+        .day_card_logo {
+          height: auto;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          span {
+            font-size: 5rem;
+          }
+        }
+
+        .day_card_heading {
+          font-size: 2.5rem;
+        }
+
+        p {
+          font-size: 1.4rem;
+          color: #c8c8c8de;
+        }
       }
     }
   }
