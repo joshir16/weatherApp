@@ -300,12 +300,14 @@ section {
 
         .current_weather_main {
           font-size: 3rem;
-          font-weight: 700;
+          font-weight: 500;
+          letter-spacing: 0.1rem;
         }
 
         .current_weather_description {
           font-size: 1.25rem;
           color: #c8c8c8de;
+          text-transform: capitalize;
         }
       }
 
@@ -409,8 +411,9 @@ section {
         }
 
         .day_heading {
-          font-size: 2.5rem;
-          font-size: 300;
+          font-size: 2rem;
+          font-weight: 500;
+          letter-spacing: 0.1rem;
         }
 
         .day_minMax {

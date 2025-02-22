@@ -183,8 +183,7 @@ function ForcastCard() {
   return (
     <div className="forcast_card">
       <div className="date_time">
-        <span>{"Today"}</span>
-        <span>{"03:00"}</span>
+        <span>{"Today"}</span>|<span>{"03:00"}</span>
       </div>
       <div className="day_logo">
         <span>☀️</span>
