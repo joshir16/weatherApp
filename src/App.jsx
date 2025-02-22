@@ -10,7 +10,7 @@ function App() {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
   const [locationData, setLocationData] = useState(null);
-  const [forcastData, setForcastData] = useState(null);
+  const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState(null);
 
   const fetchWeatherbyCords = async function (latitude, longitude) {
@@ -21,7 +21,7 @@ function App() {
     if (!res.ok) throw new Error("❌Something went wrong with weather.");
 
     const data = await res.json();
-    console.log("by cords", data);
+    // console.log("by cords", data);
 
     if (data.cod !== 200) throw new Error("Weather not found.");
 
@@ -56,11 +56,10 @@ function App() {
       throw new Error("❌Something went wrong with Forcast Details.");
 
     const data = await res.json();
-    console.log("forcast", data);
 
     if (data.cod !== "200") throw new Error("Forcast Details not found.");
 
-    setForcastData(data);
+    setForecastData(data);
   };
 
   useEffect(function () {
@@ -81,18 +80,19 @@ function App() {
 
   return (
     <>
-      <NavBar city={city} setCity={setCity} />
+      <NavBar city={city} setCity={setCity}>
+        <Favourites />
+      </NavBar>
 
       <main>
         {error ? (
           <p className="error">{error}</p>
         ) : (
           <>
-            <Favourites />
             <MyLocation
               weatherData={weatherData}
               locationData={locationData}
-              forcastData={forcastData}
+              forecastData={forecastData}
             />
           </>
         )}
@@ -101,15 +101,58 @@ function App() {
   );
 }
 
-function MyLocation({ weatherData, locationData }) {
-  if (!weatherData) return <p className="loading">Loading weather data...</p>;
+function MyLocation({ weatherData, locationData, forecastData }) {
+  if (!weatherData || !forecastData)
+    return <p className="loading">Loading weather data...</p>;
 
   if (!locationData || locationData.length === 0)
     return <p className="loading">Loading location data...</p>;
 
   const location = locationData[0]; // Get the first location result
 
-  console.log();
+  const filterForecastData = function (data) {
+    if (!data || !data.list) return [];
+    const grouped = {};
+
+    data.list.forEach((item) => {
+      const date = item.dt_txt.split(" ")[0]; // Extract YYYY-MM-DD
+      if (!grouped[date]) {
+        grouped[date] = {
+          tempSum: 0,
+          maxtempSum: 0,
+          mintempSum: 0,
+          humiditySum: 0,
+          windSpeed: 0,
+          count: 0,
+          iconCode: "",
+          weather: "",
+        };
+      }
+      grouped[date].tempSum += item.main.temp;
+      grouped[date].maxtempSum += item.main.temp_max;
+      grouped[date].mintempSum += item.main.temp_min;
+      grouped[date].humiditySum += item.main.humidity;
+      grouped[date].windSpeed += item.wind.speed;
+      grouped[date].count += 1;
+      grouped[date].iconCode = item.weather[0].icon;
+      grouped[date].weather = item.weather[0].main;
+    });
+
+    return Object.keys(grouped).map((date) => ({
+      date,
+      iconCode: grouped[date].iconCode,
+      weather: grouped[date].weather,
+      avgTemp: (grouped[date].tempSum / grouped[date].count).toFixed(2),
+      avgMaxTemp: (grouped[date].maxtempSum / grouped[date].count).toFixed(2),
+      avgMinTemp: (grouped[date].mintempSum / grouped[date].count).toFixed(2),
+      avgHumidity: (grouped[date].humiditySum / grouped[date].count).toFixed(2),
+      avgWindSpeed: (grouped[date].windSpeed / grouped[date].count).toFixed(2),
+    }));
+  };
+
+  const parsedForecastData = forecastData
+    ? filterForecastData(forecastData)
+    : [];
 
   return (
     <section className="mylocation">
@@ -129,14 +172,17 @@ function MyLocation({ weatherData, locationData }) {
           </p>
 
           <div className="current_min_max">
-            <p>Max: 22&deg;</p>
-            <p>Min: 10&deg;</p>
+            <p>Max: {parseInt(weatherData.main.temp_max)}&deg;</p>
+            <p>Min: {Number(weatherData.main.temp_max).toFixed(1)}&deg;</p>
           </div>
 
           <div className="logo ">
             <img
-              src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
-              alt="Weather Icon"
+              src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon.replace(
+                "n",
+                "d"
+              )}@2x.png`}
+              alt={weatherData.weather[0].main}
             />
             <p className="current_weather_main">
               {weatherData.weather[0].main}
@@ -165,13 +211,11 @@ function MyLocation({ weatherData, locationData }) {
           </button>
         </div>
 
-        <div className="forcast weather_card">
-          <ForcastCard />
-          <ForcastCard />
-          <ForcastCard />
-          <ForcastCard />
-          <ForcastCard />
-        </div>
+        <ul className="forcast weather_card">
+          {parsedForecastData.slice(1).map((dayData) => (
+            <ForcastCard dayData={dayData} key={dayData.date} />
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -179,28 +223,40 @@ function MyLocation({ weatherData, locationData }) {
 
 export default App;
 
-function ForcastCard() {
+function ForcastCard({ dayData }) {
   return (
     <div className="forcast_card">
       <div className="date_time">
-        <span>{"Today"}</span>|<span>{"03:00"}</span>
+        <span>{`${String(new Date(dayData.date).getDate()).padStart(
+          2,
+          "0"
+        )} / ${String(new Date(dayData.date).getMonth()).padStart(
+          2,
+          "0"
+        )}`}</span>
       </div>
       <div className="day_logo">
-        <span>☀️</span>
+        <img
+          src={`https://openweathermap.org/img/wn/${dayData.iconCode.replace(
+            "n",
+            "d"
+          )}@2x.png`}
+          alt={dayData.weather}
+        />
       </div>
-      <h3 className="day_heading">Clear Sky</h3>
+      <h3 className="day_heading">{dayData.weather}</h3>
 
       <p className="day_data_card day_max">
-        Max <span>20&deg; c</span>
+        Max <span>{Number(dayData.avgMaxTemp).toFixed(1)}&deg; c</span>
       </p>
       <p className="day_data_card day_max">
-        Min <span>16&deg; c</span>
+        Min <span>{Number(dayData.avgMinTemp).toFixed(1)}&deg; c</span>
       </p>
       <p className="day_data_card day_humidity">
-        Wind <span>68 m/s</span>
+        Wind <span>{Number(dayData.avgWindSpeed).toFixed(1)} m/s</span>
       </p>
       <p className="day_data_card day_wind">
-        Humidity <span>68%</span>
+        Humidity <span>{Number(dayData.avgHumidity).toFixed(1)}%</span>
       </p>
     </div>
   );
