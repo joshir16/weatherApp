@@ -202,12 +202,14 @@ section {
     }
 
     .mylocation_data {
+      position: relative;
       grid-column: span 3;
 
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      grid-template-rows: repeat(4, minmax(auto, 7rem));
-      gap: 1rem;
+      /* grid-template-rows: repeat(4, minmax(auto, 7rem)); */
+      grid-template-rows: repeat(4, min-content);
+      gap: 2rem;
 
       @media only screen and (max-width: 50em) {
         grid-column: span 4;
@@ -217,7 +219,7 @@ section {
       .mylocation_name {
         width: 100%;
         height: auto;
-        grid-area: 1 / 1 / 2 / -1;
+        grid-area: 1 / 1 / 2 / 4;
 
         display: flex;
         justify-content: start;
@@ -237,77 +239,126 @@ section {
         }
       }
 
-      .current_weather {
+      .current_temp {
         width: 100%;
-        height: auto;
-        grid-area: 2 / 1 / -1 / -1;
+        height: 100%;
+        font-size: 7rem;
+        font-weight: 700;
 
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
-        gap: 1rem;
-        justify-items: start;
-        align-items: center;
-        align-content: start;
+        grid-area: 2 / 1 / 4 / 3;
 
-        .cur_temp {
-          grid-area: 1 / 1 / 2 / 2;
+        span {
+          display: contents;
+          padding: 0;
+          font-size: 5rem;
+          color: #c8c8c8de;
+        }
+      }
 
-          font-size: 7rem;
+      .current_min_max {
+        width: 100%;
+        height: 100%;
+        grid-area: 2 / 3 / 4 / 4;
+
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+
+        padding: 2rem 0;
+
+        p {
+          display: block;
+          width: 100%;
+        }
+      }
+
+      p {
+        font-size: 1.6rem;
+        font-weight: 500;
+
+        width: 100%;
+      }
+
+      .logo {
+        width: 100%;
+        height: 100%;
+        grid-area: 1 / 4 / 4 / -1;
+
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+        align-content: flex-start;
+        flex-wrap: wrap;
+
+        img {
+          min-width: 50%;
+          height: auto;
+        }
+        p {
+          text-align: center;
+        }
+
+        .current_weather_main {
+          font-size: 3rem;
           font-weight: 700;
         }
 
-        .logo {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          span {
-            font-size: 7rem;
-          }
-          p {
-            font-size: 2rem;
-          }
-        }
-
-        .current_weather_detail_card {
-          display: flex;
-          flex-direction: row;
-
-          span {
-            font-size: 2rem;
-            padding-right: 0.75rem;
-          }
-
-          p {
-            font-size: 1.8rem;
-            font-weight: 500;
-
-            width: 100%;
-
-            span {
-              display: block;
-              padding: 0;
-              font-size: 1.5rem;
-              color: #c8c8c8de;
-            }
-          }
-        }
-
-        .min_max {
-          grid-area: 1 / 2 / 2 / 3;
-          flex-direction: column;
-        }
-        .humidity {
-          grid-area: 2 / 1 / 3 / 2;
-        }
-        .wind_speed {
-          grid-area: 2 / 2 / 2 / 3;
+        .current_weather_description {
+          font-size: 1.25rem;
+          color: #c8c8c8de;
         }
       }
+
+      .current_humidity {
+        width: 100%;
+        height: auto;
+        grid-area: 4 / 1 / -1 / 3;
+      }
+
+      .current_wind_speed {
+        width: 100%;
+        height: auto;
+        grid-area: 4 / 3 / -1 / 5;
+      }
+      span {
+        display: block;
+        padding: 0;
+        font-size: 1.5rem;
+        color: #c8c8c8de;
+      }
+
+      .addbtn {
+        color: #c8c8c8de;
+        background-color: #353535;
+        border: #333333;
+        position: absolute;
+        top: -0.75rem;
+        right: -0.5rem;
+
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        padding: 0.2rem;
+
+        font-size: 2rem;
+        font-weight: 500;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        z-index: 999;
+        cursor: pointer;
+
+        &:hover {
+          border: 0.1rem solid #c8c8c8de;
+        }
+      }
+
+      /* ////////////////////////////// */
     }
 
-    .mylocation_weather {
+    .forcast {
       width: 100%;
       grid-column: span 5;
 
@@ -321,7 +372,7 @@ section {
         grid-template-columns: repeat(1, 1fr);
       }
 
-      .day_card {
+      .forcast_card {
         padding: 1rem;
         border: 1px solid #333333;
 
@@ -336,7 +387,16 @@ section {
           flex-direction: row;
         }
 
-        .day_card_logo {
+        .date_time {
+          font-size: 1.4rem;
+          width: 80%;
+          height: auto;
+
+          display: flex;
+          justify-content: space-evenly;
+        }
+
+        .day_logo {
           height: auto;
 
           display: flex;
@@ -348,13 +408,30 @@ section {
           }
         }
 
-        .day_card_heading {
+        .day_heading {
           font-size: 2.5rem;
+          font-size: 300;
         }
 
-        p {
+        .day_minMax {
+          width: 80%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .day_data_card {
+          width: 80%;
+          display: flex;
+          justify-content: space-between;
+
           font-size: 1.4rem;
-          color: #c8c8c8de;
+          color: #ffffffde;
+          text-align: left;
+
+          span {
+            color: #c8c8c8de;
+          }
         }
       }
     }

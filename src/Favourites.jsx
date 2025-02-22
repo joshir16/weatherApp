@@ -63,7 +63,9 @@ function CityCard({ icon, temp, weatherType, city, country }) {
         <span>{weatherType}</span>
       </div>
 
-      <button className="closebtn">x</button>
+      <button className="closebtn" title="Remove">
+        x
+      </button>
     </div>
   );
 }
