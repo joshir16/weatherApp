@@ -230,7 +230,7 @@ function ForcastCard({ dayData }) {
         <span>{`${String(new Date(dayData.date).getDate()).padStart(
           2,
           "0"
-        )} / ${String(new Date(dayData.date).getMonth()).padStart(
+        )} / ${String(new Date(dayData.date).getMonth() + 1).padStart(
           2,
           "0"
         )}`}</span>
