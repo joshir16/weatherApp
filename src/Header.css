@@ -1,0 +1,144 @@
+.navBar {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #2a2a2a;
+
+  padding: 2rem 5rem;
+
+  h2 {
+    padding: 0.5rem;
+  }
+
+  .search {
+    justify-self: center;
+    padding: 1rem 1rem;
+    font-size: 1.5rem;
+    width: 40rem;
+    transition: all 0.3s;
+    background-color: #202020;
+
+    border-radius: 0.7rem;
+    border: 1px solid #333333;
+
+    @media only screen and (max-width: 50em) {
+      min-width: 35rem;
+      width: auto;
+      justify-self: center;
+    }
+  }
+
+  .search::placeholder {
+    color: #c8c8c8de;
+  }
+
+  .search:focus {
+    outline: none;
+    transform: translateY(-2px);
+  }
+}
+
+.search-btn {
+  padding: 1rem;
+  font-size: 1.4rem;
+
+  border-radius: 0.7rem;
+  border: 1px solid #333333;
+
+  transition: all 0.3s;
+  background-color: #202020;
+
+  &:hover {
+    background-color: #1c1c1c;
+  }
+}
+
+.favourites {
+  border: none !important;
+  border-radius: 0rem !important;
+
+  & h2 {
+    display: block;
+    cursor: pointer;
+  }
+
+  .city_box {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    justify-content: space-between;
+    align-content: space-evenly;
+    gap: 1rem;
+  }
+}
+
+.city-card {
+  width: 25rem;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  border: 1px solid #333333;
+  background-color: #202020;
+
+  padding: 1.25rem;
+
+  border-radius: 1rem;
+  position: relative;
+
+  weater_icon {
+    font-size: 1.75rem;
+  }
+
+  p {
+    font-size: 1.5rem;
+    font-weight: 700;
+    word-spacing: 0px;
+    padding: auto;
+  }
+
+  span {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #c8c8c8de;
+  }
+
+  .city {
+    margin-right: auto;
+  }
+
+  .weater_icon {
+    font-size: 3rem;
+  }
+
+  .closebtn {
+    color: #c8c8c8de;
+    background-color: #353535;
+    border: #333333;
+    position: absolute;
+    top: -0.75rem;
+    right: -0.5rem;
+
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    padding: 0.2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+    cursor: pointer;
+
+    &:hover {
+      border: 0.1rem solid #c8c8c8de;
+    }
+  }
+}

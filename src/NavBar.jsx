@@ -1,22 +1,29 @@
 // eslint-disable-next-line react/prop-types
-export function NavBar({ city, setCity, children }) {
+import { useState } from "react";
+
+export function NavBar({ setCity, children }) {
+  const [query, setQuery] = useState();
   function handleSubmit(e) {
     e.preventDefault();
+
+    if (!query) return;
+
+    setCity(qu);
   }
 
   return (
     <header>
       <nav className="navBar">
         <h2>Weather</h2>
-        <form onSubmit={handleSubmit}>
+        <form onClick={handleSubmit}>
           <input
             className="search"
             name="search"
             type="text"
             placeholder="Search..."
-            value={city}
+            value={query}
             onChange={(e) => {
-              setCity(e.target.value);
+              setQuery(e.target.value);
             }}
           />
           <button className="search-btn" type="submit">
