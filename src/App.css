@@ -184,7 +184,7 @@
   }
 }
 
-.forcast {
+.forecast {
   width: 100%;
   grid-column: span 5;
 
@@ -197,7 +197,7 @@
     grid-template-columns: repeat(1, minmax(auto, 1fr));
   }
 
-  .forcast_card {
+  .forecast_card {
     height: 100%;
     border: 1px solid #333333;
     border-radius: 1rem;

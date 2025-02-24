@@ -1,20 +1,42 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import "./index.css";
 import "./App.css";
 import "./Header.css";
 import { Favourites } from "./Favourites";
 import { NavBar } from "./NavBar";
-
-const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+import { fetchCurrentWeather, fetchForecastData } from "./utils";
 
 function App() {
   const [city, setCity] = useState("");
+  const [error, setError] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
+  const [forecastData, setForecastData] = useState(null);
 
   useEffect(function () {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
         console.log(latitude, longitude);
+
+        async function fetchWeather() {
+          try {
+            const weatherData = await fetchCurrentWeather(latitude, longitude);
+
+            const parsedForecastData = await fetchForecastData(
+              latitude,
+              longitude
+            );
+
+            setWeatherData(weatherData);
+            setForecastData(parsedForecastData);
+          } catch (err) {
+            console.log(err);
+            setError(err);
+          }
+        }
+
+        fetchWeather();
       },
       (error) => {
         console.error("Geolocation error:", error.message);
@@ -29,57 +51,77 @@ function App() {
       </NavBar>
 
       <main>
-        <CurrentWeather />
-        <ForecastWeather />
+        {error ? (
+          <p className="error">{error}</p>
+        ) : (
+          <CurrentWeather weatherData={weatherData} />
+        )}
+
+        {error ? (
+          <p className="error">{error}</p>
+        ) : (
+          <ForecastWeather forecastData={forecastData} />
+        )}
       </main>
     </>
   );
 }
 export default App;
 
-function CurrentWeather() {
+function CurrentWeather({ weatherData }) {
+  if (!weatherData) return <p className="loading">Loading weather data...</p>;
+
+  const locationData = weatherData.locationData[0];
+
   return (
     <section className="currentWeather">
       <div className="currentWeather_data">
         <div className="currentWeather_name">
           <h2 className="currentWeather_heading">
-            Noida, <span className="location_heading_state">{"UP"}</span>
+            {locationData.name},{" "}
+            <span className="location_heading_state">{locationData.state}</span>
           </h2>
-          <span className="location_heading_country">{"IN"}</span>
+          <span className="location_heading_country">
+            {locationData.country}
+          </span>
         </div>
         <p className="current_temp">
-          {parseInt(20)}&deg;<span>C</span>
+          {parseInt(weatherData.data.main.temp)}&deg;<span>C</span>
         </p>
         <div className="current_min_max">
-          <p>Max: {parseInt(21)}&deg;</p>
-          <p>Min: {Number(19).toFixed(1)}&deg;</p>
+          <p>Max: {Number(weatherData.data.main.temp_max).toFixed(1)}&deg;</p>
+          <p>Min: {Number(weatherData.data.main.temp_min).toFixed(1)}&deg;</p>
         </div>
 
         <div className="logo ">
-          <span>🌤️</span>
-          {/* <img
-              src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon.replace(
-                "n",
-                "d"
-              )}@2x.png`}
-              alt={weatherData.weather[0].main}
-            /> */}
-          <p className="current_weather_main">{"Clouds"}</p>
-          <p className="current_weather_description">{"Some text"}</p>
+          <img
+            src={`https://openweathermap.org/img/wn/${weatherData.data.weather[0].icon.replace(
+              "n",
+              "d"
+            )}@2x.png`}
+            alt={weatherData.data.weather[0].main}
+          />
+          <p className="current_weather_main">
+            {weatherData.data.weather[0].main}
+          </p>
+          <p className="current_weather_description">
+            {weatherData.data.weather[0].description}
+          </p>
         </div>
 
         <p className="current_humidity">
-          Humidity <span>{34}%</span>
+          Humidity <span>{weatherData.data.main.humidity}%</span>
         </p>
         <p className="current_wind_speed">
-          Wind Speed <span>{Number(2.4).toFixed(1)} m/s</span>
+          Wind Speed{" "}
+          <span>{Number(weatherData.data.wind.speed).toFixed(1)} m/s</span>
         </p>
 
-        {/* <p className="rain">
-            {weatherData?.rain
-              ? `It's raining! (${weatherData?.rain["1hr"]} mm)`
-              : ``}
-          </p> */}
+        <p className="rain">
+          {weatherData.data?.rain
+            ? `It's raining! (${weatherData.data?.rain["1hr"]} mm)`
+            : ``}
+        </p>
       </div>
       <button className="addbtn" title="Add to Favourites">
         +
@@ -88,53 +130,54 @@ function CurrentWeather() {
   );
 }
 
-function ForecastWeather() {
+function ForecastWeather({ forecastData }) {
+  if (!forecastData) return <p className="loading">Loading Forecast data...</p>;
+
   return (
-    <section className="forcast">
-      <ForcastCard />
-      <ForcastCard />
-      <ForcastCard />
-      <ForcastCard />
-      <ForcastCard />
+    <section className="forecast">
+      <ul className="forecast weather_card">
+        {forecastData.slice(1).map((dayData) => (
+          <ForecastCard dayData={dayData} key={dayData.date} />
+        ))}
+      </ul>
     </section>
   );
 }
 
-function ForcastCard() {
+function ForecastCard({ dayData }) {
   return (
-    <li className="forcast_card">
+    <div className="forecast_card">
       <div className="date_time">
         <span>
           {`
-          ${String(new Date().getDate()).padStart(2, "0")} 
-          ${new Date().toLocaleString("en-US", { month: "long" })}
+          ${String(new Date(dayData.date).getDate()).padStart(2, "0")} 
+          ${new Date(dayData.date).toLocaleString("en-US", { month: "long" })}
         `}
         </span>
       </div>
       <div className="day_logo">
-        <span>☀️</span>
-        {/* <img
+        <img
           src={`https://openweathermap.org/img/wn/${dayData.iconCode.replace(
             "n",
             "d"
           )}@2x.png`}
           alt={dayData.weather}
-        /> */}
+        />
       </div>
-      <h3 className="day_heading">{"Sunny"}</h3>
+      <h3 className="day_heading">{dayData.weather}</h3>
 
       <p className="day_data_card day_max">
-        Max <span>{Number(25).toFixed(1)}&deg; c</span>
+        Max <span>{Number(dayData.avgMaxTemp).toFixed(1)}&deg; c</span>
       </p>
       <p className="day_data_card day_max">
-        Min <span>{Number(18).toFixed(1)}&deg; c</span>
+        Min <span>{Number(dayData.avgMinTemp).toFixed(1)}&deg; c</span>
       </p>
       <p className="day_data_card day_humidity">
-        Wind <span>{Number(2.3).toFixed(1)} m/s</span>
+        Wind <span>{Number(dayData.avgWindSpeed).toFixed(1)} m/s</span>
       </p>
       <p className="day_data_card day_wind">
-        Humidity <span>{Number(34).toFixed(1)}%</span>
+        Humidity <span>{Number(dayData.avgHumidity).toFixed(1)}%</span>
       </p>
-    </li>
+    </div>
   );
 }

@@ -7,8 +7,6 @@ export function NavBar({ setCity, children }) {
     e.preventDefault();
 
     if (!query) return;
-
-    setCity(qu);
   }
 
   return (
