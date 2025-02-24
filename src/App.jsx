@@ -13,6 +13,36 @@ function App() {
   const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState(null);
 
+  const fetchLocationDetails = async function (cityName) {
+    const res = await fetch(
+      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${API_KEY}`
+    );
+
+    if (!res.ok)
+      throw new Error("❌Something went wrong with Location Details.");
+
+    const data = await res.json();
+
+    if (data.length === 0) throw new Error("Location Details not found.");
+
+    await setLocationData(data);
+  };
+
+  const fetchForcast = async function (city) {
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${API_KEY}`
+    );
+
+    if (!res.ok)
+      throw new Error("❌Something went wrong with Forcast Details.");
+
+    const data = await res.json();
+
+    if (data.cod !== "200") throw new Error("Forcast Details not found.");
+
+    setForecastData(data);
+  };
+
   const fetchWeatherbyCords = async function (latitude, longitude) {
     const res = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&units=metric&appid=${API_KEY}`
@@ -30,36 +60,6 @@ function App() {
     fetchLocationDetails(data.name);
 
     fetchForcast(data.name);
-  };
-
-  const fetchLocationDetails = async function (cityName) {
-    const res = await fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${API_KEY}`
-    );
-
-    if (!res.ok)
-      throw new Error("❌Something went wrong with Location Details.");
-
-    const data = await res.json();
-
-    if (data.length === 0) throw new Error("Location Details not found.");
-
-    setLocationData(data);
-  };
-
-  const fetchForcast = async function (city) {
-    const res = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${API_KEY}`
-    );
-
-    if (!res.ok)
-      throw new Error("❌Something went wrong with Forcast Details.");
-
-    const data = await res.json();
-
-    if (data.cod !== "200") throw new Error("Forcast Details not found.");
-
-    setForecastData(data);
   };
 
   useEffect(function () {
