@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import "./App.css";
@@ -6,16 +7,27 @@ import { NavBar } from "./NavBar";
 
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
+const favCitiesData = [
+  {
+    name: "Noida",
+    coords: {
+      lat: "",
+      lon: "",
+    },
+  },
+];
+
 function App() {
   const [city, setCity] = useState("");
+  // const [favouriteCities, setFavouriteCities] = useState(favCitiesData);
   const [weatherData, setWeatherData] = useState(null);
   const [locationData, setLocationData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState(null);
 
-  const fetchLocationDetails = async function (cityName) {
+  const fetchLocationDetails = async function (latitude, longitude) {
     const res = await fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${API_KEY}`
+      `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
     );
 
     if (!res.ok)
@@ -25,7 +37,7 @@ function App() {
 
     if (data.length === 0) throw new Error("Location Details not found.");
 
-    await setLocationData(data);
+    setLocationData(data);
   };
 
   const fetchForcast = async function (city) {
@@ -51,13 +63,13 @@ function App() {
     if (!res.ok) throw new Error("❌Something went wrong with weather.");
 
     const data = await res.json();
-    // console.log("by cords", data);
 
     if (data.cod !== 200) throw new Error("Weather not found.");
 
-    setWeatherData(data);
+    console.log(data);
 
-    fetchLocationDetails(data.name);
+    setWeatherData(data);
+    fetchLocationDetails(data.coord.lat, data.coord.lon);
 
     fetchForcast(data.name);
   };
@@ -75,7 +87,6 @@ function App() {
         setError("Please allow location access to fetch weather data.");
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -156,8 +167,7 @@ function MyLocation({ weatherData, locationData, forecastData }) {
 
   return (
     <section className="mylocation">
-      <h2>My Location</h2>
-
+      {/* <h2>My Location</h2> */}
       <div className="mylocation_card">
         <div className="mylocation_data weather_card">
           <div className="mylocation_name">
@@ -170,7 +180,7 @@ function MyLocation({ weatherData, locationData, forecastData }) {
           <p className="current_temp">
             {parseInt(weatherData.main.temp)}&deg;<span>C</span>
           </p>
-
+          {console.log("location", location)}
           <div className="current_min_max">
             <p>Max: {parseInt(weatherData.main.temp_max)}&deg;</p>
             <p>Min: {Number(weatherData.main.temp_max).toFixed(1)}&deg;</p>
@@ -211,6 +221,7 @@ function MyLocation({ weatherData, locationData, forecastData }) {
           </button>
         </div>
 
+        {/* Forecast Data ------------------------ */}
         <ul className="forcast weather_card">
           {parsedForecastData.slice(1).map((dayData) => (
             <ForcastCard dayData={dayData} key={dayData.date} />

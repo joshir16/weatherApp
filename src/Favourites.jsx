@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function Favourites() {
+export function Favourites({ favouriteCities }) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
