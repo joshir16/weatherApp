@@ -192,7 +192,7 @@ function ForecastWeather({ forecastData }) {
 function ForecastCard({ dayData }) {
   return (
     <div className="forecast_card">
-      <div className="date_time">
+      <div className="day_data_card date_time">
         <span>
           {`
           ${String(new Date(dayData.date).getDate()).padStart(2, "0")} 
@@ -200,7 +200,7 @@ function ForecastCard({ dayData }) {
         `}
         </span>
       </div>
-      <div className="day_logo">
+      <div className="day_data_card day_logo">
         <img
           src={`https://openweathermap.org/img/wn/${dayData.iconCode.replace(
             "n",
@@ -208,8 +208,8 @@ function ForecastCard({ dayData }) {
           )}@2x.png`}
           alt={dayData.weather}
         />
+        <h3 className="day_heading">{dayData.weather}</h3>
       </div>
-      <h3 className="day_heading">{dayData.weather}</h3>
 
       <p className="day_data_card day_max">
         Max <span>{Number(dayData.avgMaxTemp).toFixed(1)}&deg; c</span>
