@@ -67,9 +67,9 @@ export async function fetchForecastData(latitude, longitude) {
     `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`
   );
 
-  if (!res.ok) throw new Error("❌Something went wrong with Forcast Details.");
+  if (!res.ok) throw new Error("❌Something went wrong with Forecast Details.");
   const data = await res.json();
-  if (data.cod !== "200") throw new Error("Forcast Details not found.");
+  if (data.cod !== "200") throw new Error("Forecast Details not found.");
 
   const parseData = filterForecastData(data);
 
@@ -84,18 +84,16 @@ export async function fetchWeatherByCity(city) {
   if (!resp.ok)
     throw new Error("❌Something went wrong with Location Details.");
   const locationData = await resp.json();
-  if (locationData.length === 0) throw new Error("Location Details not found.");
+  if (locationData.length === 0)
+    throw new Error(`Location(${city}) not found.`);
   console.log(locationData);
 
-  const latitude = locationData[0].lat;
-  const longitude = locationData[0].lon;
-
   const res = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&units=metric&appid=${API_KEY}`
+    `https://api.openweathermap.org/data/2.5/weather?lat=${locationData[0].lat}&lon=${locationData[0].lon}&exclude=minutely,hourly,alerts&units=metric&appid=${API_KEY}`
   );
   if (!res.ok) throw new Error("❌Something went wrong with weather.");
   const data = await res.json();
-  if (data.cod !== 200) throw new Error("Weather not found.");
+  if (data.cod !== 200) throw new Error(`Weather for ${city} not found.`);
   console.log(data);
 
   return { data, locationData };

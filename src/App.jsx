@@ -11,18 +11,18 @@ import {
   fetchWeatherByCity,
 } from "./utils";
 
-const favCityData = [
-  {
-    cityname: "Chakrata",
-    lat: "30.7013248",
-    lon: "77.8703356",
-  },
-  {
-    cityname: "Delhi",
-    lat: "28.6517178",
-    lon: "77.2219388",
-  },
-];
+// const favCityData = [
+//   {
+//     cityname: "Chakrata",
+//     lat: "30.7013248",
+//     lon: "77.8703356",
+//   },
+//   {
+//     cityname: "Delhi",
+//     lat: "28.6517178",
+//     lon: "77.2219388",
+//   },
+// ];
 
 function App() {
   const [city, setCity] = useState("");
@@ -80,7 +80,7 @@ function App() {
           setForecastData(parsedForecastData);
         } catch (err) {
           console.log(err);
-          setError(err);
+          setError(err.message);
         }
       }
 
@@ -176,7 +176,7 @@ function CurrentWeather({ weatherData }) {
 }
 
 function ForecastWeather({ forecastData }) {
-  if (!forecastData) return <p className="loading">Loading Forecast data...</p>;
+  if (!forecastData) return <p className="loading">Loading forecast data...</p>;
 
   return (
     <section className="forecast">
