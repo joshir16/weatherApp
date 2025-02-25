@@ -15,7 +15,7 @@ export function NavBar({ setCity, children }) {
   return (
     <header>
       <nav className="navBar">
-        <h2>Weather</h2>
+        <h1>Weather</h1>
         <form onSubmit={handleSubmit}>
           <input
             className="search"

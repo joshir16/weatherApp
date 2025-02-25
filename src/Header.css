@@ -60,6 +60,8 @@
   border: none !important;
   border-radius: 0rem !important;
 
+  padding: 2rem 5rem;
+
   & h2 {
     display: block;
     cursor: pointer;

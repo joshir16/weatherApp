@@ -60,6 +60,8 @@
         font-weight: 700;
         word-spacing: 0px;
         padding: 0;
+
+        color: #1a9cff !important;
       }
       span {
         font-size: 1.8rem;
@@ -258,7 +260,11 @@
       height: auto;
 
       display: flex;
-      justify-content: space-evenly;
+      justify-content: center !important;
+
+      span {
+        color: #1a9cff !important;
+      }
     }
 
     .day_logo {

@@ -47,9 +47,10 @@ body {
 
 h1 {
   text-align: center;
-  font-size: 8rem;
+  font-size: 2.5rem;
   font-weight: 500;
-  padding: 1.5rem 0;
+  padding: 1rem 0;
+  color: #1a9cff;
 }
 
 h2 {
@@ -82,7 +83,7 @@ main {
   gap: 1rem;
   justify-content: center;
   align-content: center;
-  padding: 1rem 2rem;
+  padding: 2rem 5rem;
 
   @media only screen and (max-width: 50em) {
     grid-template-columns: repeat(4, 1fr);
