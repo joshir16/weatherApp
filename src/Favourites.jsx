@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function Favourites({ favouriteCities }) {
+export function Favourites() {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -12,34 +12,6 @@ export function Favourites({ favouriteCities }) {
             icon={`☁️`}
             temp={`12`}
             weatherType={`Clouds`}
-            city={`New Delhi`}
-            country={`In`}
-          />
-          <CityCard
-            icon={`🌤️`}
-            temp={`12`}
-            weatherType={`Cloudy`}
-            city={`New Delhi`}
-            country={`In`}
-          />
-          <CityCard
-            icon={`🌦️`}
-            temp={`12`}
-            weatherType={`Rainy`}
-            city={`New Delhi`}
-            country={`In`}
-          />
-          <CityCard
-            icon={`☁️`}
-            temp={`12`}
-            weatherType={`Clouds`}
-            city={`New Delhi`}
-            country={`In`}
-          />
-          <CityCard
-            icon={`☀️`}
-            temp={`12`}
-            weatherType={`Clear Sky`}
             city={`New Delhi`}
             country={`In`}
           />

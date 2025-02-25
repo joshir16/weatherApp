@@ -5,13 +5,32 @@ import "./App.css";
 import "./Header.css";
 import { Favourites } from "./Favourites";
 import { NavBar } from "./NavBar";
-import { fetchCurrentWeather, fetchForecastData } from "./utils";
+import {
+  fetchCurrentWeather,
+  fetchForecastData,
+  fetchWeatherByCity,
+} from "./utils";
+
+const favCityData = [
+  {
+    cityname: "Chakrata",
+    lat: "30.7013248",
+    lon: "77.8703356",
+  },
+  {
+    cityname: "Delhi",
+    lat: "28.6517178",
+    lon: "77.2219388",
+  },
+];
 
 function App() {
   const [city, setCity] = useState("");
-  const [error, setError] = useState("");
+  // const [favourites, setFavourites] = useState(favCityData);
+
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(function () {
     navigator.geolocation.getCurrentPosition(
@@ -43,6 +62,32 @@ function App() {
       }
     );
   }, []);
+
+  useEffect(
+    function () {
+      if (!city) return;
+
+      async function fetchWeather() {
+        try {
+          const weatherData = await fetchWeatherByCity(city);
+
+          const parsedForecastData = await fetchForecastData(
+            weatherData.locationData[0].lat,
+            weatherData.locationData[0].lon
+          );
+
+          setWeatherData(weatherData);
+          setForecastData(parsedForecastData);
+        } catch (err) {
+          console.log(err);
+          setError(err);
+        }
+      }
+
+      fetchWeather();
+    },
+    [city]
+  );
 
   return (
     <>

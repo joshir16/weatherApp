@@ -1,19 +1,22 @@
-// eslint-disable-next-line react/prop-types
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 
 export function NavBar({ setCity, children }) {
-  const [query, setQuery] = useState();
+  const [query, setQuery] = useState("");
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!query) return;
+
+    setCity(query);
+    setQuery("");
   }
 
   return (
     <header>
       <nav className="navBar">
         <h2>Weather</h2>
-        <form onClick={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <input
             className="search"
             name="search"
