@@ -30,8 +30,8 @@ const filterForecastData = function (data) {
     if (!grouped[date]) {
       grouped[date] = {
         tempSum: 0,
-        maxtempSum: 0,
-        mintempSum: 0,
+        maxtempSum: [],
+        mintempSum: [],
         humiditySum: 0,
         windSpeed: 0,
         count: 0,
@@ -40,8 +40,8 @@ const filterForecastData = function (data) {
       };
     }
     grouped[date].tempSum += item.main.temp;
-    grouped[date].maxtempSum += item.main.temp_max;
-    grouped[date].mintempSum += item.main.temp_min;
+    grouped[date].maxtempSum.push(item.main.temp_max);
+    grouped[date].mintempSum.push(item.main.temp_min);
     grouped[date].humiditySum += item.main.humidity;
     grouped[date].windSpeed += item.wind.speed;
     grouped[date].count += 1;
@@ -54,8 +54,8 @@ const filterForecastData = function (data) {
     iconCode: grouped[date].iconCode,
     weather: grouped[date].weather,
     avgTemp: (grouped[date].tempSum / grouped[date].count).toFixed(2),
-    avgMaxTemp: (grouped[date].maxtempSum / grouped[date].count).toFixed(2),
-    avgMinTemp: (grouped[date].mintempSum / grouped[date].count).toFixed(2),
+    avgMaxTemp: Math.max(...grouped[date].maxtempSum),
+    avgMinTemp: Math.min(...grouped[date].mintempSum),
     avgHumidity: (grouped[date].humiditySum / grouped[date].count).toFixed(2),
     avgWindSpeed: (grouped[date].windSpeed / grouped[date].count).toFixed(2),
   }));

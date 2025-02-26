@@ -44,7 +44,7 @@
     .currentWeather_name {
       width: 100%;
       height: auto;
-      grid-area: 1 / 1 / 2 / 4;
+      grid-area: 1 / 1 / 2 / 5;
 
       display: flex;
       justify-content: start;
@@ -64,7 +64,7 @@
         color: #1a9cff !important;
       }
       span {
-        font-size: 1.8rem;
+        font-size: 2rem;
         font-weight: 500;
         color: #c8c8c8de;
         display: contents;
