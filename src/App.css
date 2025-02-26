@@ -219,13 +219,16 @@
   width: 100%;
   grid-column: span 5;
 
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 1rem;
+  .forecast_list {
+    height: min-content;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
 
-  @media only screen and (max-width: 50em) {
-    grid-column: span 4;
-    grid-template-columns: repeat(1, minmax(auto, 1fr));
+    @media only screen and (max-width: 50em) {
+      grid-column: span 4;
+      grid-template-columns: repeat(1, minmax(auto, 1fr));
+    }
   }
 
   .forecast_card {

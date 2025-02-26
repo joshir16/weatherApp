@@ -180,7 +180,7 @@ function ForecastWeather({ forecastData }) {
 
   return (
     <section className="forecast">
-      <ul className="forecast weather_card">
+      <ul className="forecast_list weather_card">
         {forecastData.slice(1).map((dayData) => (
           <ForecastCard dayData={dayData} key={dayData.date} />
         ))}
