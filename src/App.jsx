@@ -192,14 +192,14 @@ function ForecastWeather({ forecastData }) {
 function ForecastCard({ dayData }) {
   return (
     <div className="forecast_card">
-      <div className="day_data_card date_time">
+      <p className="day_data_card date_time">
         <span>
           {`
           ${String(new Date(dayData.date).getDate()).padStart(2, "0")} 
           ${new Date(dayData.date).toLocaleString("en-US", { month: "long" })}
         `}
         </span>
-      </div>
+      </p>
       <div className="day_data_card day_logo">
         <img
           src={`https://openweathermap.org/img/wn/${dayData.iconCode.replace(
@@ -217,10 +217,10 @@ function ForecastCard({ dayData }) {
       <p className="day_data_card day_max">
         Min <span>{Number(dayData.avgMinTemp).toFixed(1)}&deg; c</span>
       </p>
-      <p className="day_data_card day_humidity">
+      <p className="day_data_card day_wind">
         Wind <span>{Number(dayData.avgWindSpeed).toFixed(1)} m/s</span>
       </p>
-      <p className="day_data_card day_wind">
+      <p className="day_data_card day_humidity">
         Humidity <span>{Number(dayData.avgHumidity).toFixed(1)}%</span>
       </p>
     </div>

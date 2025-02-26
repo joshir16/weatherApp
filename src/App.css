@@ -254,15 +254,48 @@
       }
     }
 
-    .date_time {
-      font-size: 1.4rem;
+    .day_data_card {
       width: 80%;
+      display: flex;
+      justify-content: space-between;
+
+      font-size: 1.4rem;
+      color: #ffffffde;
+      text-align: left;
+
+      padding: 1rem;
+
+      @media only screen and (max-width: 50em) {
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+      }
+
+      p {
+        display: block;
+      }
+
+      span {
+        color: #c8c8c8de;
+        @media only screen and (max-width: 50em) {
+          margin-left: 0rem;
+          display: block;
+        }
+      }
+    }
+
+    .date_time {
+      font-size: 1.5rem;
+      width: 100%;
       height: auto;
 
       display: flex;
       justify-content: center !important;
 
       span {
+        letter-spacing: 0.2rem;
         color: #1a9cff !important;
       }
     }
@@ -292,36 +325,6 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-    }
-
-    .day_data_card {
-      width: 80%;
-      display: flex;
-      justify-content: space-between;
-
-      font-size: 1.4rem;
-      color: #ffffffde;
-      text-align: left;
-
-      padding: 1rem;
-
-      @media only screen and (max-width: 50em) {
-        justify-content: flex-start;
-        flex-direction: column;
-        width: 100%;
-      }
-
-      p {
-        display: block;
-      }
-
-      span {
-        color: #c8c8c8de;
-        @media only screen and (max-width: 50em) {
-          margin-left: 0rem;
-          display: block;
-        }
-      }
     }
   }
 }
