@@ -149,6 +149,7 @@ function CurrentWeather({ weatherData, handleAddToFavourites, selectedCity }) {
   if (!weatherData) return <p className="loading">Loading weather data...</p>;
 
   const locationData = weatherData.locationData[0];
+  console.log(weatherData);
 
   return (
     <section className="currentWeather">
@@ -166,8 +167,18 @@ function CurrentWeather({ weatherData, handleAddToFavourites, selectedCity }) {
           {parseInt(weatherData.data.main.temp)}&deg;<span>C</span>
         </p>
         <div className="current_min_max">
-          <p>Max: {Number(weatherData.data.main.temp_max).toFixed(1)}&deg;</p>
-          <p>Min: {Number(weatherData.data.main.temp_min).toFixed(1)}&deg;</p>
+          <p>
+            Max:{" "}
+            <span>
+              {Number(weatherData.data.main.temp_max).toFixed(1)}&deg;
+            </span>
+          </p>
+          <p>
+            Min:{" "}
+            <span>
+              {Number(weatherData.data.main.temp_min).toFixed(1)}&deg;
+            </span>
+          </p>
         </div>
 
         <div className="logo ">
@@ -195,11 +206,11 @@ function CurrentWeather({ weatherData, handleAddToFavourites, selectedCity }) {
           <span>{Number(weatherData.data.wind.speed).toFixed(1)} m/s</span>
         </p>
 
-        <p className="rain">
+        <span className="current_rain">
           {weatherData.data?.rain
-            ? `It's raining! (${weatherData.data?.rain["1hr"]} mm)`
+            ? `It's raining! (${weatherData.data?.rain["1h"]} mm)`
             : ``}
-        </p>
+        </span>
       </div>
       <button
         className="addbtn"

@@ -109,6 +109,10 @@
         display: block;
         width: 100%;
       }
+
+      span {
+        display: contents;
+      }
     }
 
     p {
@@ -171,12 +175,24 @@
     .current_wind_speed {
       width: 100%;
       height: auto;
-      grid-area: 4 / 3 / -1 / 5;
+      grid-area: 4 / 3 / -1 / -1;
 
       @media only screen and (min-width: 50em) and (max-width: 65em) {
         grid-area: 3 / 3 / 4 / -1;
       }
     }
+
+    .current_rain {
+      width: 100%;
+      height: auto;
+      grid-area: 4 / 5 / -1 / -1;
+      font-size: 1rem;
+
+      @media only screen and (min-width: 50em) and (max-width: 65em) {
+        grid-area: 4 / 1 / -1 / -1;
+      }
+    }
+
     span {
       display: block;
       padding: 0;
