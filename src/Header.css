@@ -116,8 +116,9 @@
     margin-left: 1rem;
   }
 
-  .weater_icon {
-    font-size: 3rem;
+  .weather_icon {
+    width: 5rem;
+    height: auto;
   }
 
   .closebtn {
@@ -126,10 +127,10 @@
     border: #333333;
     position: absolute;
     top: -0.75rem;
-    right: -0.5rem;
+    right: -0.75rem;
 
-    width: 2rem;
-    height: 2rem;
+    width: 2.25rem;
+    height: 2.25rem;
     border-radius: 50%;
     padding: 0.2rem;
 
@@ -144,4 +145,10 @@
       border: 0.1rem solid #c8c8c8de;
     }
   }
+}
+
+.note {
+  font-size: 1.25rem;
+  font-weight: 300;
+  padding: 0 1.25rem;
 }

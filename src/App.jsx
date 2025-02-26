@@ -11,32 +11,30 @@ import {
   fetchWeatherByCity,
 } from "./utils";
 
-// const favCityData = [
-//   {
-//     cityname: "Chakrata",
-//     lat: "30.7013248",
-//     lon: "77.8703356",
-//   },
-//   {
-//     cityname: "Delhi",
-//     lat: "28.6517178",
-//     lon: "77.2219388",
-//   },
-// ];
-
 function App() {
   const [city, setCity] = useState("");
-  // const [favourites, setFavourites] = useState(favCityData);
-
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [favourites, setFavourites] = useState(
+    JSON.parse(localStorage.getItem("favCities") || "[]")
+  );
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState("");
+
+  function handleAddToFavourites(selectedCity) {
+    setFavourites((prevFavourites) => {
+      console.log(prevFavourites);
+      if (!prevFavourites.some((city) => city.name === selectedCity.name)) {
+        return [...prevFavourites, selectedCity];
+      }
+      return prevFavourites;
+    });
+  }
 
   useEffect(function () {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        console.log(latitude, longitude);
 
         async function fetchWeather() {
           try {
@@ -48,10 +46,18 @@ function App() {
             );
 
             setWeatherData(weatherData);
+            setSelectedCity({
+              id: weatherData.data.id,
+              name: weatherData.locationData[0].name,
+              state: weatherData.locationData[0].state,
+              country: weatherData.locationData[0].country,
+              lat: weatherData.locationData[0].lat,
+              lon: weatherData.locationData[0].lon,
+            });
             setForecastData(parsedForecastData);
           } catch (err) {
             console.log(err);
-            setError(err);
+            setError(err.message || "Something went wrong!");
           }
         }
 
@@ -59,6 +65,7 @@ function App() {
       },
       (error) => {
         console.error("Geolocation error:", error.message);
+        setError("Location access denied. Please enter a city manually.");
       }
     );
   }, []);
@@ -77,10 +84,18 @@ function App() {
           );
 
           setWeatherData(weatherData);
+          setSelectedCity({
+            id: weatherData.data.id,
+            name: weatherData.locationData[0].name,
+            state: weatherData.locationData[0].state,
+            country: weatherData.locationData[0].country,
+            lat: weatherData.locationData[0].lat,
+            lon: weatherData.locationData[0].lon,
+          });
           setForecastData(parsedForecastData);
         } catch (err) {
           console.log(err);
-          setError(err.message);
+          setError(err.message || "Something went wrong!");
         }
       }
 
@@ -89,23 +104,40 @@ function App() {
     [city]
   );
 
+  useEffect(() => {
+    localStorage.setItem("favCities", JSON.stringify(favourites ?? []));
+  }, [favourites]);
+
+  useEffect(() => {
+    const storedFavourites = JSON.parse(
+      localStorage.getItem("favCities") || "[]"
+    );
+    if (storedFavourites) setFavourites(storedFavourites);
+  }, []);
+
   return (
     <>
       <NavBar setCity={setCity}>
-        <Favourites />
+        <Favourites
+          favourites={favourites}
+          setFavourites={setFavourites}
+          selectedCity={selectedCity}
+          setSelectedCity={setSelectedCity}
+        />
       </NavBar>
 
       <main>
         {error ? (
           <p className="error">{error}</p>
         ) : (
-          <CurrentWeather weatherData={weatherData} />
-        )}
-
-        {error ? (
-          <p className="error">{error}</p>
-        ) : (
-          <ForecastWeather forecastData={forecastData} />
+          <>
+            <CurrentWeather
+              weatherData={weatherData}
+              selectedCity={selectedCity}
+              handleAddToFavourites={handleAddToFavourites}
+            />
+            <ForecastWeather forecastData={forecastData} />
+          </>
         )}
       </main>
     </>
@@ -113,7 +145,7 @@ function App() {
 }
 export default App;
 
-function CurrentWeather({ weatherData }) {
+function CurrentWeather({ weatherData, handleAddToFavourites, selectedCity }) {
   if (!weatherData) return <p className="loading">Loading weather data...</p>;
 
   const locationData = weatherData.locationData[0];
@@ -157,6 +189,7 @@ function CurrentWeather({ weatherData }) {
         <p className="current_humidity">
           Humidity <span>{weatherData.data.main.humidity}%</span>
         </p>
+
         <p className="current_wind_speed">
           Wind Speed{" "}
           <span>{Number(weatherData.data.wind.speed).toFixed(1)} m/s</span>
@@ -168,7 +201,11 @@ function CurrentWeather({ weatherData }) {
             : ``}
         </p>
       </div>
-      <button className="addbtn" title="Add to Favourites">
+      <button
+        className="addbtn"
+        title="Add to Favourites"
+        onClick={() => handleAddToFavourites(selectedCity)}
+      >
         +
       </button>
     </section>
