@@ -86,7 +86,6 @@ export async function fetchWeatherByCity(city) {
   const locationData = await resp.json();
   if (locationData.length === 0)
     throw new Error(`Location(${city}) not found.`);
-  console.log(locationData);
 
   const res = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${locationData[0].lat}&lon=${locationData[0].lon}&exclude=minutely,hourly,alerts&units=metric&appid=${API_KEY}`
@@ -94,7 +93,6 @@ export async function fetchWeatherByCity(city) {
   if (!res.ok) throw new Error("❌Something went wrong with weather.");
   const data = await res.json();
   if (data.cod !== 200) throw new Error(`Weather for ${city} not found.`);
-  console.log(data);
 
   return { data, locationData };
 }

@@ -2,7 +2,12 @@
 import { useEffect, useState } from "react";
 import { API_KEY } from "./utils";
 
-export function Favourites({ favourites, setFavourites }) {
+export function Favourites({
+  favourites,
+  setFavourites,
+  selectedCity,
+  setSelectedCity,
+}) {
   const [isOpen, setIsOpen] = useState(true);
   const [favouritesData, setFavouritesData] = useState([]);
 
@@ -60,12 +65,13 @@ export function Favourites({ favourites, setFavourites }) {
       <h2 onClick={() => setIsOpen(() => !isOpen)}>Favourites</h2>
       {isOpen &&
         (favouritesData.length > 0 ? (
-          <ul className="city_box">
+          <ul className="city_list">
             {favouritesData.map((cityData) => (
               <CityCard
                 cityData={cityData}
                 key={cityData.id}
                 handleRemove={handleRemove}
+                setSelectedCity={setSelectedCity}
               />
             ))}
           </ul>
@@ -76,21 +82,35 @@ export function Favourites({ favourites, setFavourites }) {
   );
 }
 
-function CityCard({ cityData, handleRemove }) {
+function CityCard({ cityData, handleRemove, setSelectedCity }) {
+  function handleSeletectCity(data) {
+    setSelectedCity({
+      name: data.name,
+      lat: data.coord.lat,
+      lon: data.coord.lon,
+    });
+  }
+
   return (
-    <div className="city-card">
-      <img
-        className="weather_icon"
-        src={`https://openweathermap.org/img/wn/${cityData.weather[0].icon}@2x.png`}
-        alt={cityData.weather[0].main}
-      />
-      <div className="city">
-        <p>{cityData.name}</p>
-        <span>{cityData.sys.country}</span>
-      </div>
-      <div>
-        <p>{Number(cityData.main.temp).toFixed(1)} &deg; C</p>
-        <span>{cityData.weather[0].main}</span>
+    <li className="city_item">
+      <div
+        className="city_card"
+        role="button"
+        onClick={() => handleSeletectCity(cityData)}
+      >
+        <img
+          className="weather_icon"
+          src={`https://openweathermap.org/img/wn/${cityData.weather[0].icon}@2x.png`}
+          alt={cityData.weather[0].main}
+        />
+        <div className="city">
+          <p>{cityData.name}</p>
+          <span>{cityData.sys.country}</span>
+        </div>
+        <div>
+          <p>{Number(cityData.main.temp).toFixed(1)} &deg; C</p>
+          <span>{cityData.weather[0].main}</span>
+        </div>
       </div>
 
       <button
@@ -100,6 +120,6 @@ function CityCard({ cityData, handleRemove }) {
       >
         x
       </button>
-    </div>
+    </li>
   );
 }
