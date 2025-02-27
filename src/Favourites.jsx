@@ -45,15 +45,11 @@ export function Favourites({ favourites, setFavourites }) {
         (city) => city.id !== id && city.name !== name
       );
 
-      console.log("Updated Favourites:", updatedFavourites); // Debugging log
       localStorage.setItem(
         "favCities",
         JSON.stringify(updatedFavourites ?? [])
       );
-      console.log(updatedFavourites);
       if (updatedFavourites.length == 0) return [];
-
-      setFavouritesData(updatedFavourites);
 
       return updatedFavourites;
     });

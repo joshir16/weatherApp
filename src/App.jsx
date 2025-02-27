@@ -23,7 +23,6 @@ function App() {
 
   function handleAddToFavourites(selectedCity) {
     setFavourites((prevFavourites) => {
-      console.log(prevFavourites);
       if (!prevFavourites.some((city) => city.name === selectedCity.name)) {
         return [...prevFavourites, selectedCity];
       }
@@ -149,7 +148,6 @@ function CurrentWeather({ weatherData, handleAddToFavourites, selectedCity }) {
   if (!weatherData) return <p className="loading">Loading weather data...</p>;
 
   const locationData = weatherData.locationData[0];
-  console.log(weatherData);
 
   return (
     <section className="currentWeather">
