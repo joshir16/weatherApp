@@ -251,7 +251,7 @@ function CurrentWeather({ weatherData, handleAddToFavourites, addCity }) {
         title="Add to Favourites"
         onClick={() => handleAddToFavourites(addCity)}
       >
-        +
+        ❤️
       </button>
     </section>
   );

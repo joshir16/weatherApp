@@ -41,6 +41,20 @@
       min-width: 100%;
     }
 
+    p {
+      font-size: 1.6rem;
+      font-weight: 500;
+
+      width: 100%;
+    }
+
+    span {
+      display: block;
+      padding: 0;
+      font-size: 1.5rem;
+      color: #c8c8c8de;
+    }
+
     .currentWeather_name {
       width: 100%;
       height: auto;
@@ -115,13 +129,6 @@
       }
     }
 
-    p {
-      font-size: 1.6rem;
-      font-weight: 500;
-
-      width: 100%;
-    }
-
     .logo {
       width: min-content;
       height: auto;
@@ -191,13 +198,10 @@
       @media only screen and (min-width: 50em) and (max-width: 65em) {
         grid-area: 4 / 1 / -1 / -1;
       }
-    }
 
-    span {
-      display: block;
-      padding: 0;
-      font-size: 1.5rem;
-      color: #c8c8c8de;
+      @media only screen and (max-width: 37.5em) {
+        text-align: center;
+      }
     }
   }
   .addbtn {
@@ -207,6 +211,7 @@
     position: absolute;
     top: -0.75rem;
     right: -0.5rem;
+    font-size: 1.5rem !important;
 
     width: 3rem;
     height: 3rem;
@@ -225,6 +230,7 @@
 
     &:hover {
       border: 0.1rem solid #c8c8c8de;
+      background-color: #1c1c1c;
     }
 
     /* ////////////////////////////// */

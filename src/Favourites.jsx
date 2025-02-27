@@ -116,7 +116,7 @@ function CityCard({ cityData, handleRemove, setSelectedCity }) {
         title="Remove"
         onClick={() => handleRemove(cityData.id, cityData.name)}
       >
-        x
+        ❌
       </button>
     </li>
   );
