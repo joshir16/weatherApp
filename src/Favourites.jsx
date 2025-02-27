@@ -2,12 +2,7 @@
 import { useEffect, useState } from "react";
 import { API_KEY } from "./utils";
 
-export function Favourites({
-  favourites,
-  setFavourites,
-  selectedCity,
-  setSelectedCity,
-}) {
+export function Favourites({ favourites, setFavourites, setSelectedCity }) {
   const [isOpen, setIsOpen] = useState(true);
   const [favouritesData, setFavouritesData] = useState([]);
 
