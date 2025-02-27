@@ -145,6 +145,7 @@
   .city {
     margin-right: auto;
     margin-left: 1rem;
+    color: #1a9cff !important;
   }
 
   .weather_icon {

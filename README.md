@@ -1,8 +1,36 @@
-# React + Vite
+# Weather App ☀️🌧️❄️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7a2f8b3c-88db-4a8b-b622-3c0b95e44633/deploy-status)](https://app.netlify.com/sites/useweatherapp/deploys)
 
-Currently, two official plugins are available:
+A simple and responsive weather application built using React and the OpenWeather API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌍 Live Demo
+
+🔗 [useweatherapp.netlify.app](https://useweatherapp.netlify.app/)
+
+## 🚀 Features
+
+- Get real-time weather updates for any city 🌆
+- Displays temperature, humidity, wind speed, and other weather conditions 🌡️💨
+- Displays next 5 days weather forecast 🌡️💨
+- Search functionality for quick location lookup 🔍
+- Clean and user-friendly UI 🎨
+- Fully responsive design 📱💻
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React.js, Vite, CSS3
+- **API:** OpenWeather API
+- **Deployment:** Netlify
+
+## 📸 Screenshots
+
+![Weather App Screenshot](c:\Users\Rishabh Joshi\Pictures\Screenshots\Screenshot 2025-02-27 125047.png)
+
+## 🏗️ Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/joshir16/weatherApp.git
+   cd weatherApp
+   ```

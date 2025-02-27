@@ -95,7 +95,10 @@ function CityCard({ cityData, handleRemove, setSelectedCity }) {
       >
         <img
           className="weather_icon"
-          src={`https://openweathermap.org/img/wn/${cityData.weather[0].icon}@2x.png`}
+          src={`https://openweathermap.org/img/wn/${cityData.weather[0].icon.replace(
+            "n",
+            "d"
+          )}@2x.png`}
           alt={cityData.weather[0].main}
         />
         <div className="city">
