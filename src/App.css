@@ -228,9 +228,17 @@
     z-index: 999;
     cursor: pointer;
 
-    &:hover {
-      border: 0.1rem solid #c8c8c8de;
-      background-color: #1c1c1c;
+    background-color: #1c1c1c;
+
+    & svg {
+      width: 1.8rem;
+      height: 1.8rem;
+      margin: auto;
+      transition: all 0.1s ease-in;
+    }
+
+    &:hover > svg {
+      fill: #9f0505;
     }
 
     /* ////////////////////////////// */
