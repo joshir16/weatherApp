@@ -43,7 +43,7 @@
 
     p {
       font-size: 1.6rem;
-      font-weight: 500;
+      font-weight: 300;
 
       width: 100%;
     }
@@ -52,7 +52,8 @@
       display: block;
       padding: 0;
       font-size: 1.5rem;
-      color: #c8c8c8de;
+      font-weight: 700;
+      color: #c9c7ba;
     }
 
     .currentWeather_name {
@@ -79,8 +80,8 @@
       }
       span {
         font-size: 2rem;
-        font-weight: 500;
-        color: #c8c8c8de;
+        font-weight: 300;
+        color: #c9c7ba;
         display: contents;
       }
     }
@@ -101,7 +102,7 @@
         display: contents;
         padding: 0;
         font-size: 3.5rem;
-        color: #c8c8c8de;
+        color: #c9c7ba;
       }
     }
 
@@ -164,7 +165,7 @@
 
       .current_weather_description {
         font-size: 1.25rem;
-        color: #c8c8c8de;
+        color: #c9c7ba;
         text-transform: capitalize;
       }
     }
@@ -205,7 +206,7 @@
     }
   }
   .addbtn {
-    color: #c8c8c8de;
+    color: #c9c7ba;
     background-color: #353535;
     border: #333333;
     position: absolute;
@@ -229,12 +230,20 @@
     cursor: pointer;
 
     background-color: #1c1c1c;
+    transition: all 0.1s ease-in;
+
+    .selected {
+      fill: #9f0505;
+    }
+
+    &:hover {
+      border: 0.1rem solid #c8c8c8de;
+    }
 
     & svg {
-      width: 1.8rem;
-      height: 1.8rem;
+      width: 1.75rem;
+      height: 1.75rem;
       margin: auto;
-      transition: all 0.1s ease-in;
     }
 
     &:hover > svg {
@@ -287,13 +296,22 @@
       }
     }
 
+    p {
+      font-weight: 300;
+      display: block;
+      color: #c9c7ba;
+    }
+
+    span {
+      font-weight: 700;
+    }
+
     .day_data_card {
       width: 80%;
       display: flex;
       justify-content: space-between;
 
       font-size: 1.4rem;
-      color: #ffffffde;
       text-align: left;
 
       padding: 1rem;
@@ -306,12 +324,7 @@
         width: 100%;
       }
 
-      p {
-        display: block;
-      }
-
       span {
-        color: #c8c8c8de;
         @media only screen and (max-width: 50em) {
           margin-left: 0rem;
           display: block;

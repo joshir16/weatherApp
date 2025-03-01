@@ -173,6 +173,7 @@ function App() {
             <CurrentWeather
               weatherData={weatherData}
               addCity={addCity}
+              favourites={favourites}
               handleAddToFavourites={handleAddToFavourites}
             />
             <ForecastWeather forecastData={forecastData} />
@@ -184,7 +185,12 @@ function App() {
 }
 export default App;
 
-function CurrentWeather({ weatherData, handleAddToFavourites, addCity }) {
+function CurrentWeather({
+  weatherData,
+  favourites,
+  handleAddToFavourites,
+  addCity,
+}) {
   if (!weatherData) return <p className="loading">Loading weather data...</p>;
 
   const locationData = weatherData.locationData[0];
@@ -256,6 +262,11 @@ function CurrentWeather({ weatherData, handleAddToFavourites, addCity }) {
         onClick={() => handleAddToFavourites(addCity)}
       >
         <svg
+          className={
+            favourites.some((city) => city.name === addCity.name)
+              ? "selected"
+              : ""
+          }
           viewBox="0 0 24 24"
           fill="#353535"
           xmlns="http://www.w3.org/2000/svg"

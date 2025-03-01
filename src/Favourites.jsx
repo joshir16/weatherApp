@@ -57,7 +57,27 @@ export function Favourites({ favourites, setFavourites, setSelectedCity }) {
 
   return (
     <section className="favourites">
-      <h2 onClick={() => setIsOpen(() => !isOpen)}>Favourites</h2>
+      <div
+        className="favourites_heading"
+        onClick={() => setIsOpen(() => !isOpen)}
+      >
+        <h2>Favourites</h2>
+        <svg
+          className={isOpen ? "rotate" : ""}
+          width=""
+          height=""
+          viewBox="0 0 16 16"
+          fill="#353535"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 6L8 10L12 6"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
       {isOpen &&
         (favouritesData.length > 0 ? (
           <ul className="city_list">

@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
 
-  background-color: #2a2a2a;
+  background-color: #202020;
 
   padding: 2rem 5rem;
 
@@ -61,14 +61,32 @@
 }
 
 .favourites {
-  border: none !important;
   border-radius: 0rem !important;
 
   padding: 2rem 5rem;
+  border-bottom: 1px solid #333333;
 
-  & h2 {
-    display: block;
+  .favourites_heading {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
     cursor: pointer;
+
+    & svg {
+      width: 2rem;
+      height: 2rem;
+      fill: #c8c8c8de;
+      margin-left: 1rem;
+      transition: all 0.1s ease-in-out;
+    }
+    &:hover > svg {
+      fill: #d5d5d5;
+    }
+
+    .rotate {
+      transform: rotate(180deg);
+    }
   }
 
   .city_list {
