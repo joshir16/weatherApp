@@ -10,6 +10,8 @@ import {
   fetchForecastData,
   fetchWeatherByCity,
 } from "./utils";
+// import { useGeolocation } from "./hooks/useGeoLocation";
+// import { useFetchLocation } from "./hooks/useFetchLocation";
 
 function App() {
   const [city, setCity] = useState("");
@@ -21,6 +23,9 @@ function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
   const [error, setError] = useState("");
+
+  // const { coords, errors } = useGeolocation();
+  // const { location, isloading: locationLoading } = useFetchLocation(coords);
 
   function handleAddToFavourites(addCity) {
     setFavourites((prevFavourites) => {
