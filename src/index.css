@@ -16,8 +16,6 @@
 
   --nav-height: auto;
   --header-height: auto;
-
-  transition: all 0.1s ease-in;
 }
 
 *,

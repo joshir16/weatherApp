@@ -64,8 +64,6 @@ export function Favourites({ favourites, setFavourites, setSelectedCity }) {
         <h2>Favourites</h2>
         <svg
           className={isOpen ? "rotate" : ""}
-          width=""
-          height=""
           viewBox="0 0 16 16"
           fill="#353535"
           xmlns="http://www.w3.org/2000/svg"

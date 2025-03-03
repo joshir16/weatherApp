@@ -1,35 +1,42 @@
 import { useEffect, useState } from "react";
 import { API_KEY } from "../utils";
 
-export function useFetchLocation(coords) {
-  const [location, setLocation] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+export function useFetchLocation(city, coordinates) {
+  const [location, setLocation] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setIsLoading(true);
-    async function fetchLocation() {
-      if (!coords || !coords.lat || !coords.lon) return;
+    if (!city && (!coordinates?.lat || !coordinates?.lon)) return; // Exit if both are null
 
+    setIsLoading(true);
+    setError("");
+
+    async function fetchLocation() {
       try {
-        const res = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,hourly,alerts&units=metric&appid=${API_KEY}`
-        );
+        let url = "";
+        if (city) {
+          url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${API_KEY}`;
+        } else if (coordinates?.lat && coordinates?.lon) {
+          url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${API_KEY}`;
+        }
+
+        const res = await fetch(url);
         if (!res.ok) throw new Error("❌Something went wrong with Location.");
         const data = await res.json();
-        if (data.cod !== 200) throw new Error("Location not found.");
-        console.log(data);
+        if (data.length === 0) throw new Error("Location not found.");
 
-        setLocation(data);
-        setIsLoading(false);
+        setLocation(data[0]);
       } catch (err) {
-        console.log(err);
-        setError(err);
+        console.log(err.message);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
       }
     }
 
     fetchLocation();
-  }, [coords]);
+  }, [city, coordinates]);
 
   return { location, isLoading, error };
 }

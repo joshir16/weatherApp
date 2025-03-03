@@ -3,30 +3,64 @@ import { useEffect, useState } from "react";
 import "./index.css";
 import "./App.css";
 import "./Header.css";
-import { Favourites } from "./Favourites";
 import { NavBar } from "./NavBar";
-import {
-  fetchCurrentWeather,
-  fetchForecastData,
-  fetchWeatherByCity,
-} from "./utils";
-// import { useGeolocation } from "./hooks/useGeoLocation";
-// import { useFetchLocation } from "./hooks/useFetchLocation";
+import { Favourites } from "./Favourites";
+import { ErrorMessage, Loader } from "./Loader";
+
+import { useGeolocation } from "./hooks/useGeoLocation";
+import { useFetchLocation } from "./hooks/useFetchLocation";
+import { useFetchWeather } from "./hooks/useFetchWeather";
+import { useFetchForecast } from "./hooks/useFetchForecast";
 
 function App() {
   const [city, setCity] = useState("");
-  const [selectedCity, setSelectedCity] = useState(null);
+  const { coords } = useGeolocation();
+  const [coordinates, setCoordinates] = useState(coords);
+  const [selectedCity, setSelectedCity] = useState("");
   const [addCity, setAddCity] = useState(null);
   const [favourites, setFavourites] = useState(
     JSON.parse(localStorage.getItem("favCities") || "[]")
   );
-  const [weatherData, setWeatherData] = useState(null);
-  const [forecastData, setForecastData] = useState(null);
-  const [error, setError] = useState("");
 
-  // const { coords, errors } = useGeolocation();
-  // const { location, isloading: locationLoading } = useFetchLocation(coords);
+  const {
+    location,
+    isloading: isLocationLoading,
+    error: locationError,
+  } = useFetchLocation(city ?? null, coords ?? null);
 
+  // updating coordinates on basis of location
+  useEffect(() => {
+    setCoordinates({
+      lat: location?.lat,
+      lon: location?.lon,
+    });
+  }, [location]);
+
+  const {
+    weather,
+    isloading: isWeatherLoading,
+    error: weatherError,
+  } = useFetchWeather(city ?? null, coordinates ?? null);
+
+  const {
+    forecast,
+    isloading: isForecastLoading,
+    error: forecastError,
+  } = useFetchForecast(coordinates ?? null);
+
+  // updating value addCity to add it to fav
+  useEffect(() => {
+    setAddCity({
+      id: weather?.id,
+      name: location?.name,
+      state: location?.state,
+      country: location?.country,
+      lat: location?.lat,
+      lon: location?.lon,
+    });
+  }, [weather, location]);
+
+  // updating fav list by clicking
   function handleAddToFavourites(addCity) {
     setFavourites((prevFavourites) => {
       if (!prevFavourites.some((city) => city.name === addCity.name)) {
@@ -36,81 +70,7 @@ function App() {
     });
   }
 
-  useEffect(function () {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-
-        async function fetchWeather() {
-          try {
-            const weatherData = await fetchCurrentWeather(latitude, longitude);
-
-            const parsedForecastData = await fetchForecastData(
-              latitude,
-              longitude
-            );
-
-            setError("");
-            setWeatherData(weatherData);
-            setAddCity({
-              id: weatherData.data.id,
-              name: weatherData.locationData[0].name,
-              state: weatherData.locationData[0].state,
-              country: weatherData.locationData[0].country,
-              lat: weatherData.locationData[0].lat,
-              lon: weatherData.locationData[0].lon,
-            });
-            setForecastData(parsedForecastData);
-          } catch (err) {
-            console.log(err);
-            setError(err.message || "Something went wrong!");
-          }
-        }
-
-        fetchWeather();
-      },
-      (error) => {
-        console.error("Geolocation error:", error.message);
-        setError("Location access denied. Please enter a city manually.");
-      }
-    );
-  }, []);
-
-  useEffect(
-    function () {
-      if (!city) return;
-
-      async function fetchWeather() {
-        try {
-          const weatherData = await fetchWeatherByCity(city);
-
-          const parsedForecastData = await fetchForecastData(
-            weatherData.locationData[0].lat,
-            weatherData.locationData[0].lon
-          );
-
-          setError("");
-          setWeatherData(weatherData);
-          setAddCity({
-            id: weatherData.data.id,
-            name: weatherData.locationData[0].name,
-            state: weatherData.locationData[0].state,
-            country: weatherData.locationData[0].country,
-            lat: weatherData.locationData[0].lat,
-            lon: weatherData.locationData[0].lon,
-          });
-          setForecastData(parsedForecastData);
-        } catch (err) {
-          console.log(err);
-          setError(err.message || "Something went wrong!");
-        }
-      }
-
-      fetchWeather();
-    },
-    [city]
-  );
-
+  // updating local storage
   useEffect(() => {
     localStorage.setItem("favCities", JSON.stringify(favourites ?? []));
   }, [favourites]);
@@ -122,39 +82,9 @@ function App() {
     if (storedFavourites) setFavourites(storedFavourites);
   }, []);
 
+  // updating city to fetch weather details and forecast
   useEffect(() => {
-    async function fetchWeather() {
-      try {
-        if (!selectedCity) return;
-
-        const weatherData = await fetchCurrentWeather(
-          selectedCity.lat,
-          selectedCity.lon
-        );
-
-        const parsedForecastData = await fetchForecastData(
-          selectedCity.lat,
-          selectedCity.lon
-        );
-
-        setError("");
-        setWeatherData(weatherData);
-        setAddCity({
-          id: weatherData.data.id,
-          name: weatherData.locationData[0].name,
-          state: weatherData.locationData[0].state,
-          country: weatherData.locationData[0].country,
-          lat: weatherData.locationData[0].lat,
-          lon: weatherData.locationData[0].lon,
-        });
-        setForecastData(parsedForecastData);
-      } catch (err) {
-        console.log(err);
-        setError(err.message || "Something went wrong!");
-      }
-    }
-
-    fetchWeather();
+    setCity(selectedCity.name);
   }, [selectedCity]);
 
   return (
@@ -171,18 +101,37 @@ function App() {
       </NavBar>
 
       <main>
-        {error ? (
-          <p className="error">{error}</p>
-        ) : (
-          <>
-            <CurrentWeather
-              weatherData={weatherData}
-              addCity={addCity}
-              favourites={favourites}
-              handleAddToFavourites={handleAddToFavourites}
-            />
-            <ForecastWeather forecastData={forecastData} />
-          </>
+        {isWeatherLoading && isLocationLoading && !locationError && <Loader />}
+
+        {weather && location && !weatherError && !locationError && (
+          <CurrentWeather
+            weatherData={weather ?? null}
+            locationData={location ?? null}
+            weatherError={weatherError}
+            addCity={addCity}
+            favourites={favourites}
+            handleAddToFavourites={handleAddToFavourites}
+          />
+        )}
+        {(weatherError || locationError) && (
+          <ErrorMessage message={weatherError || locationError} />
+        )}
+
+        {isForecastLoading && isWeatherLoading && isLocationLoading && (
+          <Loader />
+        )}
+
+        {forecast && !weatherError && !locationError && !forecastError && (
+          <ForecastWeather
+            forecastData={
+              locationError || weatherError ? null : forecast ?? null
+            }
+          />
+        )}
+        {(forecastError || locationError || weatherError) && (
+          <ErrorMessage
+            message={forecastError || locationError || weatherError}
+          />
         )}
       </main>
     </>
@@ -192,72 +141,67 @@ export default App;
 
 function CurrentWeather({
   weatherData,
+  locationData,
+  addCity,
   favourites,
   handleAddToFavourites,
-  addCity,
 }) {
-  if (!weatherData) return <p className="loading">Loading weather data...</p>;
-
-  const locationData = weatherData.locationData[0];
+  if (!weatherData) return <Loader />;
 
   return (
     <section className="currentWeather">
       <div className="currentWeather_data">
         <div className="currentWeather_name">
           <h2 className="currentWeather_heading">
-            {locationData.name},{" "}
-            <span className="location_heading_state">{locationData.state}</span>
+            {locationData?.name},{" "}
+            <span className="location_heading_state">
+              {locationData?.state}
+            </span>
           </h2>
           <span className="location_heading_country">
-            {locationData.country}
+            {locationData?.country}
           </span>
         </div>
         <p className="current_temp">
-          {parseInt(weatherData.data.main.temp)}&deg;<span>C</span>
+          {parseInt(weatherData?.main.temp || 0)}&deg;<span>C</span>
         </p>
         <div className="current_min_max">
           <p>
             Max:{" "}
-            <span>
-              {Number(weatherData.data.main.temp_max).toFixed(1)}&deg;
-            </span>
+            <span>{Number(weatherData?.main.temp_max).toFixed(1)}&deg;</span>
           </p>
           <p>
             Min:{" "}
-            <span>
-              {Number(weatherData.data.main.temp_min).toFixed(1)}&deg;
-            </span>
+            <span>{Number(weatherData?.main.temp_min).toFixed(1)}&deg;</span>
           </p>
         </div>
 
         <div className="logo ">
           <img
-            src={`https://openweathermap.org/img/wn/${weatherData.data.weather[0].icon.replace(
+            src={`https://openweathermap.org/img/wn/${weatherData?.weather[0].icon.replace(
               "n",
               "d"
             )}@2x.png`}
-            alt={weatherData.data.weather[0].main}
+            alt={weatherData?.weather[0].main}
           />
-          <p className="current_weather_main">
-            {weatherData.data.weather[0].main}
-          </p>
+          <p className="current_weather_main">{weatherData?.weather[0].main}</p>
           <p className="current_weather_description">
-            {weatherData.data.weather[0].description}
+            {weatherData?.weather[0].description}
           </p>
         </div>
 
         <p className="current_humidity">
-          Humidity <span>{weatherData.data.main.humidity}%</span>
+          Humidity <span>{weatherData?.main.humidity}%</span>
         </p>
 
         <p className="current_wind_speed">
           Wind Speed{" "}
-          <span>{Number(weatherData.data.wind.speed).toFixed(1)} m/s</span>
+          <span>{Number(weatherData?.wind.speed).toFixed(1)} m/s</span>
         </p>
 
         <span className="current_rain">
-          {weatherData.data?.rain
-            ? `It's raining! (${weatherData.data?.rain["1h"]} mm)`
+          {weatherData?.rain
+            ? `It's raining! (${weatherData?.rain["1h"]} mm)`
             : ``}
         </span>
       </div>
@@ -284,7 +228,7 @@ function CurrentWeather({
 }
 
 function ForecastWeather({ forecastData }) {
-  if (!forecastData) return <p className="loading">Loading forecast data...</p>;
+  if (!forecastData) return <Loader />;
 
   return (
     <section className="forecast">

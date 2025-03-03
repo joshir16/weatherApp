@@ -5,10 +5,6 @@ export function useGeolocation() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!navigator.geolocation) {
-      setError("Geolocation not supported");
-      return;
-    }
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setCoords({
