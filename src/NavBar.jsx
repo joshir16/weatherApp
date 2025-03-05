@@ -1,16 +1,21 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function NavBar({ setCity, children }) {
   const [query, setQuery] = useState("");
+  const inputEl = useRef(null);
+
   function handleSubmit(e) {
     e.preventDefault();
-
     if (!query) return;
 
     setCity(query);
     setQuery("");
   }
+
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
 
   return (
     <header>
@@ -21,11 +26,12 @@ export function NavBar({ setCity, children }) {
             className="search"
             name="search"
             type="text"
-            placeholder="Search..."
+            placeholder="Search City, State..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
             }}
+            ref={inputEl}
           />
           <button className="search-btn" type="submit">
             Search
