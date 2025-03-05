@@ -9,24 +9,31 @@ A simple and responsive weather application built using React and the OpenWeathe
 🔗 [useweatherapp.netlify.app](https://useweatherapp.netlify.app/)
 
 ## 🚀 Features  
+- 🌡️ Real-Time Weather Updates: Get current weather information for any city, including temperature, humidity, wind speed, and more.
+- 📅 5-Day Forecast: View weather predictions for the next five days.
+- 🔍 Search Functionality: Quickly look up weather data for different locations. 
+- ⭐ Favorites: Save your preferred locations for easy access.  
+- 🎨 User-Friendly Interface: Enjoy a clean and intuitive UI.
+- 📱💻Responsive Design: Access the app seamlessly on various devices.
 
-- Get real-time weather updates for any city 🌆  
-- Displays temperature, humidity, wind speed, and other weather conditions 🌡️💨  
-- Displays next 5 days weather forecast 📅  
-- Search functionality for quick location lookup 🔍  
-- Add to Favourites for easy access to your favorite locations ⭐  
-- Clean and user-friendly UI 🎨  
-- Fully responsive design 📱💻  
 
 ## 🛠️ Tech Stack
-
 - **Frontend:** React.js, Vite, CSS3
 - **API:** OpenWeather API
 - **Deployment:** Netlify
 
+## React Concepts Used
+- **useState**: Managing component-level state for user input and API data.
+- **useEffect**: Fetching weather data and updating UI on component mount and location search.
+- **Custom Hooks**: Encapsulating API requests and weather data logic.
+- **Props**: Passing data between components.
+- **Conditional Rendering**: Displaying different UI elements based on API data availability.
+
 ## 📸 Screenshots
 
-![Weather App Screenshot](https://github.com/user-attachments/assets/8e6320b6-8329-46b9-b489-ea64b333d5a0)
+![Weather App Screenshot](https://github.com/user-attachments/assets/bd5e5699-de9b-4234-bc43-74f08802db2b)
+
+----------
 
 ## 🏗️ Installation & Setup
 
