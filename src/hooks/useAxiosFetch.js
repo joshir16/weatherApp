@@ -19,15 +19,20 @@ export function useAxiosFetch(url) {
     const fetchData = async function () {
       try {
         const res = await axios.get(url, { signal: controller.signal });
-        console.log(res.data);
-        setData(res.data);
+
+        if (Array.isArray(res.data)) {
+          setData(res?.data[0]);
+        } else {
+          setData(res?.data);
+        }
 
         setError(null);
       } catch (err) {
         if (axios.isCancel(err)) {
           console.log("Request cancelled");
         } else {
-          setError(err);
+          console.log(err?.response?.data?.message);
+          setError(err?.response?.data?.message);
         }
       } finally {
         setIsLoading(false);
