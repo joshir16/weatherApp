@@ -31,8 +31,7 @@ export function useAxiosFetch(url) {
         if (axios.isCancel(err)) {
           console.log("Request cancelled");
         } else {
-          console.log(err?.response?.data?.message);
-          setError(err?.response?.data?.message);
+          setError(err?.response?.data?.message || err?.message);
         }
       } finally {
         setIsLoading(false);
