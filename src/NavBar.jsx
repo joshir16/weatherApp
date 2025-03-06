@@ -26,7 +26,7 @@ export function NavBar({ setCity, children }) {
             className="search"
             name="search"
             type="text"
-            placeholder="Search City, State..."
+            placeholder="Search city, state..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
