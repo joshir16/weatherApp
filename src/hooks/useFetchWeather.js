@@ -4,13 +4,14 @@ import { API_KEY } from "../utils";
 export function useFetchWeather(city, coordinates) {
   const [weather, setWeather] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!city && (!coordinates?.lat || !coordinates?.lon)) return; // Exit if both are null
 
+    const controller = new AbortController();
     setIsLoading(true);
-    setError("");
+    setError(null);
 
     async function fetchLocation() {
       let url = "";
@@ -21,12 +22,14 @@ export function useFetchWeather(city, coordinates) {
       }
 
       try {
-        const res = await fetch(url);
+        const res = await fetch(url, { signal: controller.signal });
         if (!res.ok) throw new Error("❌Something went wrong with Weather.");
         const data = await res.json();
         if (data.cod !== 200) throw new Error("Weather not found.");
 
         setWeather(data);
+
+        setError(null);
       } catch (err) {
         console.log(err.message);
         setError(err.message);
@@ -36,6 +39,8 @@ export function useFetchWeather(city, coordinates) {
     }
 
     fetchLocation();
+
+    return () => controller.abort();
   }, [city, coordinates]);
 
   return { weather, isLoading, error };

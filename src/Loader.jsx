@@ -4,9 +4,5 @@ export function Loader() {
 }
 
 export function ErrorMessage({ message }) {
-  return (
-    <p className="error">
-      <span>{message}</span>
-    </p>
-  );
+  return <p className="error">{message}</p>;
 }

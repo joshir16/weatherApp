@@ -22,9 +22,12 @@ function App() {
     JSON.parse(localStorage.getItem("favCities") || "[]")
   );
 
+  const [isLoader, setIsLoader] = useState(null);
+  const [isError, setIsError] = useState(null);
+
   const {
     location,
-    isloading: isLocationLoading,
+    isLoading: isLocationLoading,
     error: locationError,
   } = useFetchLocation(city ?? null, coords ?? null);
 
@@ -38,13 +41,13 @@ function App() {
 
   const {
     weather,
-    isloading: isWeatherLoading,
+    isLoading: isWeatherLoading,
     error: weatherError,
   } = useFetchWeather(city ?? null, coordinates ?? null);
 
   const {
     forecast,
-    isloading: isForecastLoading,
+    isLoading: isForecastLoading,
     error: forecastError,
   } = useFetchForecast(coordinates ?? null);
 
@@ -87,6 +90,14 @@ function App() {
     setCity(selectedCity.name);
   }, [selectedCity]);
 
+  useEffect(() => {
+    setIsLoader(isLocationLoading || isWeatherLoading || isForecastLoading);
+  }, [isLocationLoading, isWeatherLoading, isForecastLoading]);
+
+  useEffect(() => {
+    setIsError(locationError || weatherError || forecastError);
+  }, [locationError, weatherError, forecastError]);
+
   return (
     <>
       <NavBar setCity={setCity}>
@@ -101,38 +112,32 @@ function App() {
       </NavBar>
 
       <main>
-        {isWeatherLoading && isLocationLoading && !locationError && <Loader />}
-
-        {weather && location && !weatherError && !locationError && (
-          <CurrentWeather
-            weatherData={weather ?? null}
-            locationData={location ?? null}
-            weatherError={weatherError}
-            addCity={addCity}
-            favourites={favourites}
-            handleAddToFavourites={handleAddToFavourites}
-          />
-        )}
-        {(weatherError || locationError) && (
-          <ErrorMessage message={weatherError || locationError} />
-        )}
-
-        {isForecastLoading && isWeatherLoading && isLocationLoading && (
+        {isLoader ? (
           <Loader />
+        ) : (
+          <>
+            {weather && location && !isError && (
+              <CurrentWeather
+                weatherData={weather ?? null}
+                locationData={location ?? null}
+                weatherError={weatherError}
+                addCity={addCity}
+                favourites={favourites}
+                handleAddToFavourites={handleAddToFavourites}
+              />
+            )}
+
+            {forecast && !isError && (
+              <ForecastWeather
+                forecastData={
+                  locationError || weatherError ? null : forecast ?? null
+                }
+              />
+            )}
+          </>
         )}
 
-        {forecast && !weatherError && !locationError && !forecastError && (
-          <ForecastWeather
-            forecastData={
-              locationError || weatherError ? null : forecast ?? null
-            }
-          />
-        )}
-        {(forecastError || locationError || weatherError) && (
-          <ErrorMessage
-            message={forecastError || locationError || weatherError}
-          />
-        )}
+        {isError && <ErrorMessage message={isError} />}
       </main>
     </>
   );
