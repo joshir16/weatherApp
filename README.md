@@ -18,9 +18,10 @@ A simple and responsive weather application built using React and the OpenWeathe
 
 
 ## 🛠️ Tech Stack
-- **Frontend:** React.js, Vite, CSS3
-- **API:** OpenWeather API
-- **Deployment:** Netlify
+- Frontend: ***React.js, Vite, CSS3***
+- API: ***OpenWeather API***
+- HTTP Client: ***Axios***
+- Deployment: ***Netlify***
 
 ## React Concepts Used
 - **useState**: Managing component-level state for user input and API data.
