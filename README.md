@@ -18,9 +18,10 @@ A simple and responsive weather application built using React and the OpenWeathe
 
 
 ## 🛠️ Tech Stack
-- **Frontend:** React.js, Vite, CSS3
-- **API:** OpenWeather API
-- **Deployment:** Netlify
+- Frontend: ***React.js, Vite, CSS3***
+- API: ***OpenWeather API***
+- HTTP Client: ***Axios***
+- Deployment: ***Netlify***
 
 ## React Concepts Used
 - **useState**: Managing component-level state for user input and API data.
@@ -33,7 +34,6 @@ A simple and responsive weather application built using React and the OpenWeathe
 
 ![Weather App Screenshot](https://github.com/user-attachments/assets/bd5e5699-de9b-4234-bc43-74f08802db2b)
 
-----------
 
 ## 🏗️ Installation & Setup
 
@@ -42,3 +42,7 @@ A simple and responsive weather application built using React and the OpenWeathe
    git clone https://github.com/joshir16/weatherApp.git
    cd weatherApp
    ```
+
+----------
+
+Made with ❤️ by [Rishabh Joshi](https://github.com/joshir16)
