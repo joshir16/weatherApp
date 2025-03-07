@@ -87,7 +87,11 @@ function App() {
 
   // updating city to fetch weather details and forecast
   useEffect(() => {
-    setCity(selectedCity.name);
+    setCity((curCity) => {
+      if (curCity != selectedCity.name) return selectedCity.name;
+
+      return curCity;
+    });
   }, [selectedCity]);
 
   useEffect(() => {
