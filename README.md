@@ -26,6 +26,7 @@ A simple and responsive weather application built using React and the OpenWeathe
 ## React Concepts Used
 - **useState**: Managing component-level state for user input and API data.
 - **useEffect**: Fetching weather data and updating UI on component mount and location search.
+- **useReducer**: Managing complex state logic in the useAxiosFetch custom hook.
 - **Custom Hooks**: Encapsulating API requests and weather data logic.
 - **Props**: Passing data between components.
 - **Conditional Rendering**: Displaying different UI elements based on API data availability.
