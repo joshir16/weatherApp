@@ -1,40 +1,59 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import axios from "axios";
 
+const innitialState = {
+  data: null,
+  isLoading: true,
+  error: null,
+};
+
+function dataReducer(state, action) {
+  switch (action.type) {
+    case "FETCH_START":
+      return { ...state, isLoading: true, error: null };
+    case "FETCH_SUCCESS":
+      return { ...state, isLoading: false, data: action.payload };
+    case "FETCH_ERROR":
+      return {
+        ...state,
+        isLoading: false,
+        data: null,
+        error: action.payload || "Failed to fetch data",
+      };
+
+    default:
+      return state;
+  }
+}
+
 export function useAxiosFetch(url) {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [state, dispatch] = useReducer(dataReducer, innitialState);
 
   useEffect(() => {
     if (!url) {
-      setIsLoading(false);
       return;
     }
 
-    setIsLoading(true);
-    setError(null);
-
     const controller = new AbortController();
     const fetchData = async function () {
+      dispatch({ type: "FETCH_START" });
       try {
         const res = await axios.get(url, { signal: controller.signal });
 
         if (Array.isArray(res.data)) {
-          setData(res?.data[0]);
+          dispatch({ type: "FETCH_SUCCESS", payload: res?.data[0] });
         } else {
-          setData(res?.data);
+          dispatch({ type: "FETCH_SUCCESS", payload: res?.data });
         }
-
-        setError(null);
       } catch (err) {
         if (axios.isCancel(err)) {
           console.log("Request cancelled");
         } else {
-          setError(err?.response?.data?.message || err?.message);
+          dispatch({
+            type: "FETCH_SUCCESS",
+            payload: err?.response?.data?.message || err?.message,
+          });
         }
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -43,5 +62,5 @@ export function useAxiosFetch(url) {
     return () => controller.abort();
   }, [url]);
 
-  return { data, isLoading, error };
+  return state;
 }
