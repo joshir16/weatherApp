@@ -66,7 +66,7 @@ function App() {
   // updating fav list by clicking
   function handleAddToFavourites(addCity) {
     setFavourites((prevFavourites) => {
-      if (!prevFavourites.some((city) => city.name === addCity.name)) {
+      if (!prevFavourites.some((city) => city.id === addCity.id)) {
         return [...prevFavourites, addCity];
       }
       return prevFavourites;
