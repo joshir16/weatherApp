@@ -29,7 +29,7 @@ function App() {
     location,
     isLoading: isLocationLoading,
     error: locationError,
-  } = useFetchLocation(city ?? null, coords ?? null);
+  } = useFetchLocation("", coords ?? null);
 
   // updating coordinates on basis of location
   useEffect(() => {
