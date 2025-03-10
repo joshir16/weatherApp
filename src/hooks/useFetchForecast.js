@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { API_KEY, filterForecastData } from "../utils";
+import { API_KEY, filterForecastData } from "../assets/utils";
 import { useAxiosFetch } from "./useAxiosFetch";
 
 export function useFetchForecast(coords) {

@@ -3,7 +3,7 @@ import axios from "axios";
 
 const innitialState = {
   data: null,
-  isLoading: true,
+  isLoading: false,
   error: null,
 };
 
@@ -50,7 +50,7 @@ export function useAxiosFetch(url) {
           console.log("Request cancelled");
         } else {
           dispatch({
-            type: "FETCH_SUCCESS",
+            type: "FETCH_ERROR",
             payload: err?.response?.data?.message || err?.message,
           });
         }

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { API_KEY } from "../utils";
+import { API_KEY } from "../assets/utils";
 import { useAxiosFetch } from "./useAxiosFetch";
 
 export function useFetchWeather(city, coordinates) {
   const [url, setUrl] = useState(null);
 
-  const { data: weather, isLoading, error } = useAxiosFetch(url);
+  const { data: weather, isLoading = true, error } = useAxiosFetch(url);
 
   useEffect(() => {
     if (!city && (!coordinates?.lat || !coordinates?.lon)) return; // Exit if both are null

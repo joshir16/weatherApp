@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { API_KEY } from "./utils";
+import { API_KEY } from "../assets/utils";
 
 export function Favourites({ favourites, setFavourites, setSelectedCity }) {
   const [isOpen, setIsOpen] = useState(true);
